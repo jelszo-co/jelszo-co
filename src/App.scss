@@ -2,6 +2,19 @@
 $black: #000000;
 $pink: #bf0b6e;
 
+::selection,
+::-moz-selection {
+	background: $black;
+	color: #fff;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
 #rect-main {
 	position: absolute;
 	top: 48%;
@@ -10,6 +23,7 @@ $pink: #bf0b6e;
 	width: 150pt;
 	height: 150pt;
 	border: 3pt solid $black;
+	opacity: 0;
 }
 
 #landing-center-wrapper {
@@ -31,11 +45,67 @@ $pink: #bf0b6e;
 	span {
 		display: inline-block;
 		position: relative;
-		width: 4px;
-		height: 24px;
+		width: 3px;
+		height: 18pt;
 		margin: -1px 0;
 		background: $pink;
 		animation: blink 0.7s infinite ease-in-out;
+		opacity: 1;
+	}
+}
+
+.sm-wrapper {
+	position: absolute;
+	bottom: 1.5%;
+	left: 1%;
+	opacity: 0;
+
+	i {
+		margin: 10px;
+		font-size: 2rem;
+		cursor: pointer;
+		transition: 0.1s all ease-in-out;
+
+		&:hover {
+			transform: scale(1.1);
+		}
+	}
+}
+
+.lang-selector {
+	position: absolute;
+	bottom: -3%;
+	right: 2%;
+	opacity: 0;
+	cursor: pointer;
+
+	h3 {
+		margin: 0;
+		padding: 0;
+		text-transform: uppercase;
+		font-family: "Oswald";
+		font-weight: 600;
+		font-size: 1.8rem;
+		transition: 0.1s all ease-in-out;
+
+		&:nth-child(2) {
+			opacity: 0;
+			transform: none;
+			color: $pink;
+		}
+	}
+	&:hover {
+		h3 {
+			transform: none;
+			&:nth-child(1) {
+				opacity: 0;
+				transform: translateY(-100%);
+			}
+			&:nth-child(2) {
+				opacity: 1;
+				transform: translateY(-100%);
+			}
+		}
 	}
 }
 
