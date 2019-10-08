@@ -1,0 +1,52 @@
+@import url("https://fonts.googleapis.com/css?family=Oswald:200,300,400,600,700|Staatliches&display=swap");
+$black: #000000;
+$pink: #bf0b6e;
+
+#rect-main {
+	position: absolute;
+	top: 48%;
+	left: 50%;
+	transform: translate(-50%, -50%) rotate(45deg);
+	width: 150pt;
+	height: 150pt;
+	border: 3pt solid $black;
+}
+
+#landing-center-wrapper {
+	font-family: "Staatliches";
+	position: absolute;
+	top: 47.5%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	display: block;
+
+	h1 {
+		display: inline-block;
+		margin: 0;
+		padding: 0;
+		letter-spacing: 2px;
+		text-align: center;
+	}
+
+	span {
+		display: inline-block;
+		position: relative;
+		width: 4px;
+		height: 24px;
+		margin: -1px 0;
+		background: $pink;
+		animation: blink 0.7s infinite ease-in-out;
+	}
+}
+
+@keyframes blink {
+	0% {
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
