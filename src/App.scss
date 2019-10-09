@@ -20,11 +20,25 @@ body {
 	position: absolute;
 	top: $top;
 	left: 50%;
-	transform: translate(-50%, -50%) rotate(45deg);
-	width: 150pt;
-	height: 150pt;
-	border: 3pt solid $black;
+	transform: translate(-50%, -50%);
+	height: 110vh;
 	opacity: 0;
+}
+
+.line-main {
+	fill: none;
+	stroke: #000;
+	stroke-miterlimit: 10;
+	stroke-width: 3pt;
+}
+
+.line-short {
+	stroke-dasharray: 4 1000;
+}
+
+.line-long {
+	opacity: 0;
+	stroke-dasharray: 4 1000;
 }
 
 #landing-center-wrapper {
@@ -191,6 +205,7 @@ body {
 	bottom: 3%;
 	left: 51%;
 	transform: translateX(-50%);
+	opacity: 0;
 }
 
 .dot {

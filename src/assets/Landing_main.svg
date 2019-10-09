@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 872.12 1204.12" id="rect-main">
+    <g data-name="Layer 2">
+        <g data-name="Layer 2">
+            <line class="line-main line-short" x1="435.06" y1="435.06" x2="269.06" y2="601.06" data-name="topshort"/>
+            <line class="line-main line-short" x1="436.06" y1="769.06" x2="603.56" y2="601.56" data-name="bottomshort"/>
+            <line class="line-main line-long" x1="268.06" y1="600.06" x2="871.06" y2="1203.06"/>
+            <line class="line-main line-long" x1="602.06" y1="602.06" x2="1.06" y2="1.06"/>
+        </g>
+    </g>
+</svg>

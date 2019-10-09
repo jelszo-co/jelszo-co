@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import "./App.scss";
-import { TimelineMax } from "gsap/all";
+import { TimelineMax, Power4 } from "gsap/all";
+
+import { ReactComponent as LandingCenter } from "./assets/Landing_main.svg";
 
 export default class App extends Component {
 	constructor(props) {
@@ -27,19 +29,29 @@ export default class App extends Component {
 		tl.to("#landing-center-text", 0.5, { text: "" }, "+=1.5");
 		tl.to("#landing-center-text", 1, { text: "Jelszo Co." }, "+=1");
 		tl.to("#playhead", 0.5, { opacity: 0, animation: "none" }, "+=1");
+		tl.addLabel("svg");
 		tl.to("#rect-main", 0.5, { opacity: 1 });
+		tl.to(".line-short", 1.5, {
+			strokeDasharray: "238 1000",
+			ease: Power4.easeInOut
+		});
+		tl.to(".line-long", 0, { opacity: 1 });
+		tl.to(".line-long", 1.5, {
+			strokeDasharray: "900 1000",
+			ease: Power4.easeInOut
+		});
 		tl.to(
-			[".sm-wrapper", ".lang-selector", ".ctrl"],
+			[".sm-wrapper", ".lang-selector", ".ctrl", ".dots-wrapper"],
 			0.5,
 			{ opacity: 1 },
-			"+=0.5"
+			"+=1"
 		);
 		tl.addLabel("end");
 		// REMINDER: Move "end" label before array opacity toggle
 
 		document.body.onkeyup = function(e) {
 			if (e.keyCode === 32) {
-				tl.currentLabel("end");
+				tl.currentLabel("svg");
 			}
 		};
 	}
@@ -65,7 +77,7 @@ export default class App extends Component {
 		const { currentPage, pageNames } = this.state;
 		return (
 			<div className='App'>
-				<div id='rect-main'></div>
+				<LandingCenter />
 				<div id='landing-center-wrapper'>
 					<h1 id='landing-center-text'> </h1>
 					<span id='playhead'></span>
@@ -77,8 +89,18 @@ export default class App extends Component {
 							window.location.href = "https://m.me/jelszoco";
 						}}
 					></i>
-					<i className='fab fa-instagram'></i>
-					<i className='fab fa-github'></i>
+					<i
+						className='fab fa-instagram'
+						onClick={() => {
+							window.location.href = "https://instagram.com/jelszoco";
+						}}
+					></i>
+					<i
+						className='fab fa-github'
+						onClick={() => {
+							window.location.href = "https://github.com/jelszo-co";
+						}}
+					></i>
 				</div>
 				<div className='lang-selector' onClick={this.changeLang}>
 					<h3>En</h3>
