@@ -3,6 +3,7 @@ import "./App.scss";
 import { TimelineMax, Power4 } from "gsap/all";
 
 import { ReactComponent as LandingCenter } from "./assets/Landing_main.svg";
+import { ReactComponent as LandingCube } from "./assets/Landing_cube.svg";
 
 export default class App extends Component {
 	constructor(props) {
@@ -15,17 +16,30 @@ export default class App extends Component {
 			};
 		}
 		this.state = {
-			lang: "en",
+			lang: "hu",
+			CL: {},
+			EN: {
+				name: "en",
+				opposName: "hu",
+				introText: ["innovativity", "creativity"],
+				pageNames: ["contact", "work", "home", "about", "team"]
+			},
+			HU: {
+				name: "hu",
+				opposName: "en",
+				introText: ["innovativitás", "kreativitás"],
+				pageNames: ["kapcsolat", "munkáink", "kezdőlap", "rólunk", "csapatunk"]
+			},
 			currentPage: 2,
-			pageNames: ["contact", "work", "home", "about", "team"],
 			paginationDots: newPagDots
 		};
 	}
 	componentDidMount() {
+		const { CL } = this.state;
 		const tl = new TimelineMax();
-		tl.to("#landing-center-text", 1, { text: "innovativity" }, "+=2");
+		tl.to("#landing-center-text", 1, { text: CL.introText[0] }, "+=2");
 		tl.to("#landing-center-text", 0.5, { text: "" }, "+=1.5");
-		tl.to("#landing-center-text", 1, { text: "creativity" }, "+=1");
+		tl.to("#landing-center-text", 1, { text: CL.introText[1] }, "+=1");
 		tl.to("#landing-center-text", 0.5, { text: "" }, "+=1.5");
 		tl.to("#landing-center-text", 1, { text: "Jelszo Co." }, "+=1");
 		tl.to("#playhead", 0.5, { opacity: 0, animation: "none" }, "+=1");
@@ -67,7 +81,8 @@ export default class App extends Component {
 		};
 	}
 	static getDerivedStateFromProps(props, state) {
-		let newPagDots = state.paginationDots;
+		let newPagDots = state.paginationDots,
+			tempLang;
 		for (let i = 0; i < 5; i++) {
 			if (i === state.currentPage) {
 				newPagDots[i].current = true;
@@ -75,20 +90,26 @@ export default class App extends Component {
 				newPagDots[i].current = false;
 			}
 		}
-		return { ...state, paginationDots: newPagDots };
+		if (state.lang === "en") {
+			tempLang = state.EN;
+		} else {
+			tempLang = state.HU;
+		}
+		return { ...state, paginationDots: newPagDots, CL: tempLang };
 	}
 	changeLang = () => {
-		if (this.state.lang === "hu") {
-			this.setState({ lang: "en" });
-		} else {
+		if (this.state.lang === "en") {
 			this.setState({ lang: "hu" });
+		} else {
+			this.setState({ lang: "en" });
 		}
 	};
 	render() {
-		const { currentPage, pageNames } = this.state;
+		const { currentPage, CL } = this.state;
 		return (
 			<div className='App'>
 				<LandingCenter />
+				{/* <LandingCube /> */}
 				<div id='landing-center-wrapper'>
 					<h1 id='landing-center-text'> </h1>
 					<span id='playhead'></span>
@@ -114,8 +135,8 @@ export default class App extends Component {
 					></i>
 				</div>
 				<div className='lang-selector' onClick={this.changeLang}>
-					<h3>En</h3>
-					<h3>Hu</h3>
+					<h3>{CL.name}</h3>
+					<h3>{CL.opposName}</h3>
 				</div>
 				<div
 					className='ctrl ctrl-left'
@@ -125,7 +146,7 @@ export default class App extends Component {
 				>
 					<i className='fas fa-caret-left'></i>
 					<span></span>
-					<p>{pageNames[currentPage - 1]}</p>
+					<p>{CL.pageNames[currentPage - 1]}</p>
 				</div>
 				<div
 					className='ctrl ctrl-right'
@@ -135,7 +156,7 @@ export default class App extends Component {
 				>
 					<i className='fas fa-caret-right'></i>
 					<span></span>
-					<p>{pageNames[currentPage + 1]}</p>
+					<p>{CL.pageNames[currentPage + 1]}</p>
 				</div>
 				<div className='dots-wrapper'>
 					{this.state.paginationDots.map((dot) => {
