@@ -3,11 +3,22 @@ import "./App.scss";
 import { TimelineMax } from "gsap/all";
 
 export default class App extends Component {
-	state = {
-		lang: "en",
-		currentPage: 2,
-		pageNames: ["contact", "work", "home", "about", "team"]
-	};
+	constructor(props) {
+		super(props);
+		let newPagDots = [];
+		for (let i = 0; i < 5; i++) {
+			newPagDots[i] = {
+				id: i,
+				current: false
+			};
+		}
+		this.state = {
+			lang: "en",
+			currentPage: 2,
+			pageNames: ["contact", "work", "home", "about", "team"],
+			paginationDots: newPagDots
+		};
+	}
 	componentDidMount() {
 		const tl = new TimelineMax();
 		tl.to("#landing-center-text", 1, { text: "innovativity" }, "+=2");
@@ -17,14 +28,31 @@ export default class App extends Component {
 		tl.to("#landing-center-text", 1, { text: "Jelszo Co." }, "+=1");
 		tl.to("#playhead", 0.5, { opacity: 0, animation: "none" }, "+=1");
 		tl.to("#rect-main", 0.5, { opacity: 1 });
-		tl.to([".sm-wrapper", ".lang-selector", ".ctrl"], 0.5, { opacity: 1 }, "+=0.5");
+		tl.to(
+			[".sm-wrapper", ".lang-selector", ".ctrl"],
+			0.5,
+			{ opacity: 1 },
+			"+=0.5"
+		);
 		tl.addLabel("end");
+		// REMINDER: Move "end" label before array opacity toggle
 
 		document.body.onkeyup = function(e) {
 			if (e.keyCode === 32) {
 				tl.currentLabel("end");
 			}
 		};
+	}
+	static getDerivedStateFromProps(props, state) {
+		let newPagDots = state.paginationDots;
+		for (let i = 0; i < 5; i++) {
+			if (i === state.currentPage) {
+				newPagDots[i].current = true;
+			} else {
+				newPagDots[i].current = false;
+			}
+		}
+		return { ...state, paginationDots: newPagDots };
 	}
 	changeLang = () => {
 		if (this.state.lang === "hu") {
@@ -75,6 +103,23 @@ export default class App extends Component {
 					<i className='fas fa-caret-right'></i>
 					<span></span>
 					<p>{pageNames[currentPage + 1]}</p>
+				</div>
+				<div className='dots-wrapper'>
+					{this.state.paginationDots.map((dot) => {
+						if (dot.current === true) {
+							return <span className='dot dot-active' key={dot.id}></span>;
+						} else {
+							return (
+								<span
+									key={dot.id}
+									className='dot'
+									onClick={() => {
+										this.setState({ currentPage: dot.id });
+									}}
+								></span>
+							);
+						}
+					})}
 				</div>
 			</div>
 		);
