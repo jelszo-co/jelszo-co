@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import "./App.scss";
 import { TimelineMax, Power4 } from "gsap/all";
+import axios from "axios";
 
 import { ReactComponent as LandingCenter } from "./assets/Landing_main.svg";
-import { ReactComponent as LandingCube } from "./assets/Landing_cube.svg";
+// import { ReactComponent as LandingCube } from "./assets/Landing_cube.svg";
 
 export default class App extends Component {
 	constructor(props) {
@@ -79,6 +80,82 @@ export default class App extends Component {
 				tl.currentLabel("elements");
 			}
 		};
+		let currentDate = new Date();
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(
+				(position) => {
+					console.log("Location granted.");
+
+					axios
+						.get(
+							`https://api.sunrise-sunset.org/json?lat=${position.coords.latitude}&lng=${position.coords.longitude}&formatted=0`
+						)
+						.then((res) => {
+							let sunriseMs = new Date(res.data.results.sunrise).getTime();
+							let sunsetMs = new Date(res.data.results.sunset).getTime();
+							if (sunriseMs < currentDate && sunsetMs > currentDate) {
+								console.log("day");
+							} else {
+								console.log("night");
+							}
+						});
+				},
+				() => {
+					console.log("Location denied.");
+					console.log(
+						"Country Code: ",
+						window.navigator.language.split("-")[1]
+					);
+					axios
+						.get(
+							`http://api.worldbank.org/v2/country/${window.navigator.language
+								.split("-")[1]
+								.toLowerCase()}?format=json`
+						)
+						.then((res) => {
+							axios
+								.get(
+									`https://api.sunrise-sunset.org/json?lat=${res.data[1][0].latitude}&lng=${res.data[1][0].longitude}&formatted=0`
+								)
+								.then((res) => {
+									let sunriseMs = new Date(res.data.results.sunrise).getTime();
+									let sunsetMs = new Date(res.data.results.sunset).getTime();
+									if (sunriseMs < currentDate && sunsetMs > currentDate) {
+										console.log("day");
+									} else {
+										console.log("night");
+									}
+								});
+						});
+				}
+			);
+		} else {
+			console.log("Geolocation not available.");
+			console.log("Country Code: ", window.navigator.language.split("-")[1]);
+
+			axios
+				.get(
+					`http://api.worldbank.org/v2/country/${window.navigator.language
+						.split("-")[1]
+						.toLowerCase()}?format=json`
+				)
+				// .get(`http://api.worldbank.org/v2/country/hu?format=json`)
+				.then((res) => {
+					axios
+						.get(
+							`https://api.sunrise-sunset.org/json?lat=${res.data[1][0].latitude}&lng=${res.data[1][0].longitude}&formatted=0`
+						)
+						.then((res) => {
+							let sunriseMs = new Date(res.data.results.sunrise).getTime();
+							let sunsetMs = new Date(res.data.results.sunset).getTime();
+							if (sunriseMs < currentDate && sunsetMs > currentDate) {
+								console.log("day");
+							} else {
+								console.log("night");
+							}
+						});
+				});
+		}
 	}
 	static getDerivedStateFromProps(props, state) {
 		let newPagDots = state.paginationDots,
