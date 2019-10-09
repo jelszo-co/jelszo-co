@@ -55,7 +55,7 @@ export default class App extends Component {
 			},
 			"-=0.2"
 		);
-		tl.to(".line-long", 0.1, { opacity: 1 });
+		tl.to(".line-long", 0.2, { opacity: 1 });
 		tl.to(
 			".line-long",
 			1.5,
@@ -63,14 +63,14 @@ export default class App extends Component {
 				strokeDasharray: "900 1000",
 				ease: Power4.easeInOut
 			},
-			"-=0.1"
+			"-=0.2"
 		);
 		tl.addLabel("elements");
 		tl.to(
 			[".sm-wrapper", ".lang-selector", ".ctrl", ".dots-wrapper"],
 			0.5,
 			{ opacity: 1 },
-			"+=1"
+			"+=0.8"
 		);
 		tl.addLabel("end");
 		// REMINDER: Move "end" label before array opacity toggle
@@ -80,6 +80,7 @@ export default class App extends Component {
 				tl.currentLabel("elements");
 			}
 		};
+
 		let currentDate = new Date();
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(
