@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Oswald:200,300,400,600,700|Staatliches&display=swap");
 $black: #000000;
 $pink: #bf0b6e;
+$top: 48%;
 
 ::selection,
 ::-moz-selection {
@@ -17,7 +18,7 @@ body {
 
 #rect-main {
 	position: absolute;
-	top: 48%;
+	top: $top;
 	left: 50%;
 	transform: translate(-50%, -50%) rotate(45deg);
 	width: 150pt;
@@ -29,7 +30,7 @@ body {
 #landing-center-wrapper {
 	font-family: "Staatliches";
 	position: absolute;
-	top: 47.5%;
+	top: $top - 0.5%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	display: block;
@@ -106,6 +107,82 @@ body {
 				transform: translateY(-100%);
 			}
 		}
+	}
+}
+
+.ctrl {
+	position: absolute;
+	top: $top;
+	transform: translateY(-50%);
+	width: 30px;
+	height: 4rem;
+	transition: 0.1s all ease-in-out;
+	cursor: pointer;
+	opacity: 0;
+	&:hover {
+		width: 200px;
+		p,
+		span {
+			opacity: 1;
+		}
+	}
+	i {
+		font-size: 4rem;
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+	span {
+		display: block;
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		height: 2px;
+		width: 28px;
+		opacity: 0;
+		background: #000;
+	}
+
+	p {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		margin: 0;
+		padding: 0;
+		opacity: 0;
+		font-family: "Oswald";
+		font-weight: 200;
+		font-size: 2rem;
+		text-transform: uppercase;
+		transition: 0.1s all ease-in-out;
+	}
+}
+
+.ctrl-left {
+	left: 3%;
+	i {
+		left: 0;
+	}
+	span {
+		left: 28%;
+	}
+	p {
+		right: 0;
+		text-align: right;
+	}
+}
+
+.ctrl-right {
+	right: 3%;
+	i {
+		right: 0;
+	}
+	span {
+		right: 28%;
+	}
+	p {
+		left: 0;
+		text-align: left;
 	}
 }
 

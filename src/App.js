@@ -4,7 +4,9 @@ import { TimelineMax } from "gsap/all";
 
 export default class App extends Component {
 	state = {
-		lang: "en"
+		lang: "en",
+		currentPage: 2,
+		pageNames: ["contact", "work", "home", "about", "team"]
 	};
 	componentDidMount() {
 		const tl = new TimelineMax();
@@ -15,7 +17,14 @@ export default class App extends Component {
 		tl.to("#landing-center-text", 1, { text: "Jelszo Co." }, "+=1");
 		tl.to("#playhead", 0.5, { opacity: 0, animation: "none" }, "+=1");
 		tl.to("#rect-main", 0.5, { opacity: 1 });
-		tl.to([".sm-wrapper", ".lang-selector"], 0.5, { opacity: 1 }, "+=0.5");
+		tl.to([".sm-wrapper", ".lang-selector", ".ctrl"], 0.5, { opacity: 1 }, "+=0.5");
+		tl.addLabel("end");
+
+		document.body.onkeyup = function(e) {
+			if (e.keyCode === 32) {
+				tl.currentLabel("end");
+			}
+		};
 	}
 	changeLang = () => {
 		if (this.state.lang === "hu") {
@@ -25,6 +34,7 @@ export default class App extends Component {
 		}
 	};
 	render() {
+		const { currentPage, pageNames } = this.state;
 		return (
 			<div className='App'>
 				<div id='rect-main'></div>
@@ -45,6 +55,26 @@ export default class App extends Component {
 				<div className='lang-selector' onClick={this.changeLang}>
 					<h3>En</h3>
 					<h3>Hu</h3>
+				</div>
+				<div
+					className='ctrl ctrl-left'
+					onClick={() => {
+						this.setState({ currentPage: this.state.currentPage - 1 });
+					}}
+				>
+					<i className='fas fa-caret-left'></i>
+					<span></span>
+					<p>{pageNames[currentPage - 1]}</p>
+				</div>
+				<div
+					className='ctrl ctrl-right'
+					onClick={() => {
+						this.setState({ currentPage: this.state.currentPage + 1 });
+					}}
+				>
+					<i className='fas fa-caret-right'></i>
+					<span></span>
+					<p>{pageNames[currentPage + 1]}</p>
 				</div>
 			</div>
 		);
