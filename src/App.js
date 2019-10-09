@@ -30,16 +30,27 @@ export default class App extends Component {
 		tl.to("#landing-center-text", 1, { text: "Jelszo Co." }, "+=1");
 		tl.to("#playhead", 0.5, { opacity: 0, animation: "none" }, "+=1");
 		tl.addLabel("svg");
-		tl.to("#rect-main", 0.5, { opacity: 1 });
-		tl.to(".line-short", 1.5, {
-			strokeDasharray: "238 1000",
-			ease: Power4.easeInOut
-		});
-		tl.to(".line-long", 0, { opacity: 1 });
-		tl.to(".line-long", 1.5, {
-			strokeDasharray: "900 1000",
-			ease: Power4.easeInOut
-		});
+		tl.to("#rect-main", 0.2, { opacity: 1 });
+		tl.to(
+			".line-short",
+			1.5,
+			{
+				strokeDasharray: "238 1000",
+				ease: Power4.easeInOut
+			},
+			"-=0.2"
+		);
+		tl.to(".line-long", 0.1, { opacity: 1 });
+		tl.to(
+			".line-long",
+			1.5,
+			{
+				strokeDasharray: "900 1000",
+				ease: Power4.easeInOut
+			},
+			"-=0.1"
+		);
+		tl.addLabel("elements");
 		tl.to(
 			[".sm-wrapper", ".lang-selector", ".ctrl", ".dots-wrapper"],
 			0.5,
@@ -51,7 +62,7 @@ export default class App extends Component {
 
 		document.body.onkeyup = function(e) {
 			if (e.keyCode === 32) {
-				tl.currentLabel("svg");
+				tl.currentLabel("elements");
 			}
 		};
 	}
