@@ -128,12 +128,13 @@ body {
 	width: 40px;
 	position: absolute;
 	bottom: 1.5%;
-	right: 6%;
+	right: 8%;
+	transform: translateX(50%);
 	opacity: 0;
 	cursor: pointer;
 	transition: 0.05s all ease-in-out;
 	transform-origin: center;
-
+	z-index: 2;
 	.ns-moon {
 		stroke-linejoin: round;
 		fill: none;
@@ -154,8 +155,30 @@ body {
 		.ns-moon {
 			stroke: $pink;
 		}
-		transform: scale(1.05);
+		.nightswitch {
+			transform: scale(1.05);
+		}
 	}
+}
+
+.nightswitch-tooltip {
+	position: absolute;
+	bottom: 1.5%;
+	right: 8%;
+	transform: translateX(50%);
+	text-align: center;
+	text-transform: uppercase;
+	font-family: "Oswald";
+	font-weight: 300;
+	letter-spacing: 1px;
+	z-index: 1;
+	opacity: 0;
+	transition: 0.1s ease-in-out;
+}
+
+.night-selector:hover + .nightswitch-tooltip {
+	bottom: calc(1.5% + 45px);
+	opacity: 1;
 }
 
 .ctrl {

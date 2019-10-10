@@ -255,8 +255,9 @@ export default class App extends Component {
 					<h3>{CL.opposName}</h3>
 				</div>
 				<div className='night-selector' onClick={this.setAutoNight}>
-					<NightSwitch className='night-switch' />
+					<NightSwitch />
 				</div>
+				<p className='nightswitch-tooltip'>Automatic night mode</p>
 				<div
 					className='ctrl ctrl-left'
 					onClick={() => {
