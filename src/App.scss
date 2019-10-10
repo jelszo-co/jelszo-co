@@ -128,7 +128,7 @@ body {
 	width: 40px;
 	position: absolute;
 	bottom: 1.5%;
-	right: 8%;
+	right: 7%;
 	transform: translateX(50%);
 	opacity: 0;
 	cursor: pointer;
@@ -138,13 +138,11 @@ body {
 	.ns-moon {
 		stroke-linejoin: round;
 		fill: none;
-		stroke: #000;
 		stroke-width: 3px;
 	}
 
 	.ns-line {
 		fill: none;
-		stroke: #000;
 		stroke-width: 3px;
 		stroke-linecap: round;
 		stroke-miterlimit: 10;
@@ -161,10 +159,17 @@ body {
 	}
 }
 
+.nightswitch-colored g g * {
+	stroke: $pink;
+}
+.nightswitch-gray g g * {
+	stroke: $black;
+}
+
 .nightswitch-tooltip {
 	position: absolute;
-	bottom: 1.5%;
-	right: 8%;
+	bottom: calc(1.5% + 20px);
+	right: 7%;
 	transform: translateX(50%);
 	text-align: center;
 	text-transform: uppercase;

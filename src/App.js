@@ -120,9 +120,11 @@ export default class App extends Component {
 		}
 	};
 	setAutoNight = () => {
-		this.setState({ isAutoNightActive: !this.state.isAutoNightActive });
+		this.setState({
+			isAutoNightActive: !this.state.isAutoNightActive,
+			isNight: false
+		});
 		localStorage.setItem("isAutoNightActive", !this.state.isAutoNightActive);
-		console.log("LocalStorage night mode set");
 	};
 	render() {
 		const { currentPage, CL } = this.state;
@@ -255,9 +257,22 @@ export default class App extends Component {
 					<h3>{CL.opposName}</h3>
 				</div>
 				<div className='night-selector' onClick={this.setAutoNight}>
-					<NightSwitch />
+					<NightSwitch
+						className={`${
+							this.state.isAutoNightActive
+								? "nightswitch-colored"
+								: "nightswitch-gray"
+						}`}
+					/>
 				</div>
-				<p className='nightswitch-tooltip'>Automatic night mode</p>
+				<p
+					className='nightswitch-tooltip'
+					style={{
+						color: `${this.state.isAutoNightActive ? "#bf0b6e" : "#000000"}`
+					}}
+				>
+					Automatic night mode
+				</p>
 				<div
 					className='ctrl ctrl-left'
 					onClick={() => {
