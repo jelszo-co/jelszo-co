@@ -124,6 +124,23 @@ body {
 	}
 }
 
+.night-selector {
+	width: 40px;
+	position: absolute;
+	bottom: 1.5%;
+	right: 5%;
+	opacity: 0;
+	#night-switch-element {
+		fill: none;
+		stroke: #000;
+		stroke-linecap: round;
+		stroke-miterlimit: 10;
+	}
+	.ns-line {
+		opacity: 1;
+	}
+}
+
 .ctrl {
 	position: absolute;
 	top: $top;

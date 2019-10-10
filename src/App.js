@@ -4,6 +4,7 @@ import { TimelineMax, Power4 } from "gsap/all";
 import axios from "axios";
 
 import { ReactComponent as LandingCenter } from "./assets/Landing_main.svg";
+import { ReactComponent as NightSwitch } from "./assets/Landing_nightswitch.svg";
 // import { ReactComponent as LandingCube } from "./assets/Landing_cube.svg";
 
 export default class App extends Component {
@@ -70,7 +71,13 @@ export default class App extends Component {
 		);
 		tl.addLabel("elements");
 		tl.to(
-			[".sm-wrapper", ".lang-selector", ".ctrl", ".dots-wrapper"],
+			[
+				".sm-wrapper",
+				".lang-selector",
+				".ctrl",
+				".dots-wrapper",
+				".night-selector"
+			],
 			0.5,
 			{ opacity: 1 },
 			"+=0.8"
@@ -248,7 +255,7 @@ export default class App extends Component {
 					<h3>{CL.opposName}</h3>
 				</div>
 				<div className='night-selector' onClick={this.setAutoNight}>
-					<button>Toggle Auto night mode</button>
+					<NightSwitch className='night-switch' />
 				</div>
 				<div
 					className='ctrl ctrl-left'
