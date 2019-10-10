@@ -32,7 +32,9 @@ export default class App extends Component {
 				pageNames: ["kapcsolat", "munkáink", "kezdőlap", "rólunk", "csapatunk"]
 			},
 			currentPage: 2,
-			paginationDots: newPagDots
+			paginationDots: newPagDots,
+			isAutoNightActive: false,
+			isNight: null
 		};
 	}
 	componentDidMount() {
@@ -80,87 +82,11 @@ export default class App extends Component {
 				tl.currentLabel("elements");
 			}
 		};
-
-		let currentDate = new Date();
-		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(
-				(position) => {
-					console.log("Location granted.");
-
-					axios
-						.get(
-							`https://api.sunrise-sunset.org/json?lat=${position.coords.latitude}&lng=${position.coords.longitude}&formatted=0`
-						)
-						.then((res) => {
-							let sunriseMs = new Date(res.data.results.sunrise).getTime();
-							let sunsetMs = new Date(res.data.results.sunset).getTime();
-							if (sunriseMs < currentDate && sunsetMs > currentDate) {
-								console.log("day");
-							} else {
-								console.log("night");
-							}
-						});
-				},
-				() => {
-					console.log("Location denied.");
-					console.log(
-						"Country Code: ",
-						window.navigator.language.split("-")[1]
-					);
-					axios
-						.get(
-							`http://api.worldbank.org/v2/country/${window.navigator.language
-								.split("-")[1]
-								.toLowerCase()}?format=json`
-						)
-						.then((res) => {
-							axios
-								.get(
-									`https://api.sunrise-sunset.org/json?lat=${res.data[1][0].latitude}&lng=${res.data[1][0].longitude}&formatted=0`
-								)
-								.then((res) => {
-									let sunriseMs = new Date(res.data.results.sunrise).getTime();
-									let sunsetMs = new Date(res.data.results.sunset).getTime();
-									if (sunriseMs < currentDate && sunsetMs > currentDate) {
-										console.log("day");
-									} else {
-										console.log("night");
-									}
-								});
-						});
-				}
-			);
-		} else {
-			console.log("Geolocation not available.");
-			console.log("Country Code: ", window.navigator.language.split("-")[1]);
-
-			axios
-				.get(
-					`http://api.worldbank.org/v2/country/${window.navigator.language
-						.split("-")[1]
-						.toLowerCase()}?format=json`
-				)
-				// .get(`http://api.worldbank.org/v2/country/hu?format=json`)
-				.then((res) => {
-					axios
-						.get(
-							`https://api.sunrise-sunset.org/json?lat=${res.data[1][0].latitude}&lng=${res.data[1][0].longitude}&formatted=0`
-						)
-						.then((res) => {
-							let sunriseMs = new Date(res.data.results.sunrise).getTime();
-							let sunsetMs = new Date(res.data.results.sunset).getTime();
-							if (sunriseMs < currentDate && sunsetMs > currentDate) {
-								console.log("day");
-							} else {
-								console.log("night");
-							}
-						});
-				});
-		}
 	}
 	static getDerivedStateFromProps(props, state) {
 		let newPagDots = state.paginationDots,
-			tempLang;
+			tempLang,
+			tempIsNight;
 		for (let i = 0; i < 5; i++) {
 			if (i === state.currentPage) {
 				newPagDots[i].current = true;
@@ -173,6 +99,82 @@ export default class App extends Component {
 		} else {
 			tempLang = state.HU;
 		}
+		if (state.isAutoNightActive) {
+			let currentDate = new Date();
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(
+					(position) => {
+						console.log("Location granted.");
+
+						axios
+							.get(
+								`https://api.sunrise-sunset.org/json?lat=${position.coords.latitude}&lng=${position.coords.longitude}&formatted=0`
+							)
+							.then((res) => {
+								let sunriseMs = new Date(res.data.results.sunrise).getTime();
+								let sunsetMs = new Date(res.data.results.sunset).getTime();
+								if (sunriseMs < currentDate && sunsetMs > currentDate) {
+									return { IsNight: false };
+								} else {
+									return { IsNight: true };
+								}
+							});
+					},
+					() => {
+						console.log("Location denied.");
+						console.log("Country Code: ", window.navigator.language.split("-")[1]);
+						axios
+							.get(
+								`http://api.worldbank.org/v2/country/${window.navigator.language
+									.split("-")[1]
+									.toLowerCase()}?format=json`
+							)
+							.then((res) => {
+								axios
+									.get(
+										`https://api.sunrise-sunset.org/json?lat=${res.data[1][0].latitude}&lng=${res.data[1][0].longitude}&formatted=0`
+									)
+									.then((res) => {
+										let sunriseMs = new Date(res.data.results.sunrise).getTime();
+										let sunsetMs = new Date(res.data.results.sunset).getTime();
+										if (sunriseMs < currentDate && sunsetMs > currentDate) {
+											return { IsNight: false };
+										} else {
+											return { IsNight: true };
+										}
+									});
+							});
+					}
+				);
+			} else {
+				console.log("Geolocation not available.");
+				console.log("Country Code: ", window.navigator.language.split("-")[1]);
+
+				axios
+					.get(
+						`http://api.worldbank.org/v2/country/${window.navigator.language
+							.split("-")[1]
+							.toLowerCase()}?format=json`
+					)
+					.then((res) => {
+						axios
+							.get(
+								`https://api.sunrise-sunset.org/json?lat=${res.data[1][0].latitude}&lng=${res.data[1][0].longitude}&formatted=0`
+							)
+							.then((res) => {
+								let sunriseMs = new Date(res.data.results.sunrise).getTime();
+								let sunsetMs = new Date(res.data.results.sunset).getTime();
+								if (sunriseMs < currentDate && sunsetMs > currentDate) {
+									return { IsNight: false };
+								} else {
+									return { IsNight: true };
+								}
+							});
+					});
+			}
+		}
+		console.log(tempIsNight);
+
 		return { ...state, paginationDots: newPagDots, CL: tempLang };
 	}
 	changeLang = () => {
@@ -215,6 +217,14 @@ export default class App extends Component {
 				<div className='lang-selector' onClick={this.changeLang}>
 					<h3>{CL.name}</h3>
 					<h3>{CL.opposName}</h3>
+				</div>
+				<div
+					className='night-selector'
+					onClick={() => {
+						this.setState({ isAutoNightActive: !this.state.isAutoNightActive });
+					}}
+				>
+					<button>Toggle Auto night mode</button>
 				</div>
 				<div
 					className='ctrl ctrl-left'
