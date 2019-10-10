@@ -33,7 +33,8 @@ export default class App extends Component {
 			},
 			currentPage: 2,
 			paginationDots: newPagDots,
-			isAutoNightActive: false,
+			isAutoNightActive:
+				JSON.parse(localStorage.getItem("isAutoNightActive")) || false,
 			isNight: null
 		};
 	}
@@ -85,8 +86,7 @@ export default class App extends Component {
 	}
 	static getDerivedStateFromProps(props, state) {
 		let newPagDots = state.paginationDots,
-			tempLang,
-			tempIsNight;
+			tempLang;
 		for (let i = 0; i < 5; i++) {
 			if (i === state.currentPage) {
 				newPagDots[i].current = true;
@@ -99,13 +99,32 @@ export default class App extends Component {
 		} else {
 			tempLang = state.HU;
 		}
-		if (state.isAutoNightActive) {
+
+		return {
+			paginationDots: newPagDots,
+			CL: tempLang
+		};
+	}
+	changeLang = () => {
+		if (this.state.lang === "en") {
+			this.setState({ lang: "hu" });
+		} else {
+			this.setState({ lang: "en" });
+		}
+	};
+	setAutoNight = () => {
+		this.setState({ isAutoNightActive: !this.state.isAutoNightActive });
+		localStorage.setItem("isAutoNightActive", !this.state.isAutoNightActive);
+		console.log("LocalStorage night mode set");
+	};
+	render() {
+		const { currentPage, CL } = this.state;
+		if (this.state.isAutoNightActive === true) {
 			let currentDate = new Date();
 			if (navigator.geolocation) {
 				navigator.geolocation.getCurrentPosition(
 					(position) => {
 						console.log("Location granted.");
-
 						axios
 							.get(
 								`https://api.sunrise-sunset.org/json?lat=${position.coords.latitude}&lng=${position.coords.longitude}&formatted=0`
@@ -114,15 +133,24 @@ export default class App extends Component {
 								let sunriseMs = new Date(res.data.results.sunrise).getTime();
 								let sunsetMs = new Date(res.data.results.sunset).getTime();
 								if (sunriseMs < currentDate && sunsetMs > currentDate) {
-									return { IsNight: false };
+									console.log("day");
+									if (this.state.isNight !== false) {
+										this.setState({ isNight: false });
+									}
 								} else {
-									return { IsNight: true };
+									console.log("night");
+									if (this.state.isNight !== true) {
+										this.setState({ isNight: true });
+									}
 								}
 							});
 					},
 					() => {
 						console.log("Location denied.");
-						console.log("Country Code: ", window.navigator.language.split("-")[1]);
+						console.log(
+							"Country Code: ",
+							window.navigator.language.split("-")[1]
+						);
 						axios
 							.get(
 								`http://api.worldbank.org/v2/country/${window.navigator.language
@@ -135,12 +163,20 @@ export default class App extends Component {
 										`https://api.sunrise-sunset.org/json?lat=${res.data[1][0].latitude}&lng=${res.data[1][0].longitude}&formatted=0`
 									)
 									.then((res) => {
-										let sunriseMs = new Date(res.data.results.sunrise).getTime();
+										let sunriseMs = new Date(
+											res.data.results.sunrise
+										).getTime();
 										let sunsetMs = new Date(res.data.results.sunset).getTime();
 										if (sunriseMs < currentDate && sunsetMs > currentDate) {
-											return { IsNight: false };
+											console.log("day");
+											if (this.state.isNight !== false) {
+												this.setState({ isNight: false });
+											}
 										} else {
-											return { IsNight: true };
+											console.log("night");
+											if (this.state.isNight !== true) {
+												this.setState({ isNight: true });
+											}
 										}
 									});
 							});
@@ -165,27 +201,20 @@ export default class App extends Component {
 								let sunriseMs = new Date(res.data.results.sunrise).getTime();
 								let sunsetMs = new Date(res.data.results.sunset).getTime();
 								if (sunriseMs < currentDate && sunsetMs > currentDate) {
-									return { IsNight: false };
+									console.log("day");
+									if (this.state.isNight !== false) {
+										this.setState({ isNight: false });
+									}
 								} else {
-									return { IsNight: true };
+									console.log("night");
+									if (this.state.isNight !== true) {
+										this.setState({ isNight: true });
+									}
 								}
 							});
 					});
 			}
 		}
-		console.log(tempIsNight);
-
-		return { ...state, paginationDots: newPagDots, CL: tempLang };
-	}
-	changeLang = () => {
-		if (this.state.lang === "en") {
-			this.setState({ lang: "hu" });
-		} else {
-			this.setState({ lang: "en" });
-		}
-	};
-	render() {
-		const { currentPage, CL } = this.state;
 		return (
 			<div className='App'>
 				<LandingCenter />
@@ -218,12 +247,7 @@ export default class App extends Component {
 					<h3>{CL.name}</h3>
 					<h3>{CL.opposName}</h3>
 				</div>
-				<div
-					className='night-selector'
-					onClick={() => {
-						this.setState({ isAutoNightActive: !this.state.isAutoNightActive });
-					}}
-				>
+				<div className='night-selector' onClick={this.setAutoNight}>
 					<button>Toggle Auto night mode</button>
 				</div>
 				<div
