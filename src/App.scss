@@ -16,7 +16,7 @@ body {
 	overflow: hidden;
 }
 
-.landing-rect {
+.rect-main {
 	width: 290px;
 	height: 290px;
 	position: absolute;
@@ -33,7 +33,7 @@ body {
 	}
 }
 
-#rect-main {
+#rect-landing {
 	position: absolute;
 	top: $top;
 	left: 50%;

@@ -18,7 +18,7 @@ export default class App extends Component {
 			};
 		}
 		this.state = {
-			lang: "hu",
+			lang: localStorage.getItem("lang") || "hu",
 			CL: {},
 			EN: {
 				name: "en",
@@ -49,7 +49,7 @@ export default class App extends Component {
 		tl.to("#landing-center-text", 1, { text: "Jelszo Co." }, "+=1");
 		tl.to("#playhead", 0.5, { opacity: 0, animation: "none" }, "+=1");
 		tl.addLabel("svg");
-		tl.to("#rect-main", 0.2, { opacity: 1 });
+		tl.to("#rect-landing", 0.2, { opacity: 1 });
 		tl.to(
 			".line-short",
 			1.5,
@@ -115,8 +115,10 @@ export default class App extends Component {
 	changeLang = () => {
 		if (this.state.lang === "en") {
 			this.setState({ lang: "hu" });
+			localStorage.setItem("lang", "hu");
 		} else {
 			this.setState({ lang: "en" });
+			localStorage.setItem("lang", "en");
 		}
 	};
 	setAutoNight = () => {
@@ -226,9 +228,51 @@ export default class App extends Component {
 					});
 			}
 		}
+		const goto_work = () => {
+			console.log("work");
+
+			const tlW = new TimelineMax();
+			tlW.to(
+				"#rect-landing",
+				0.5,
+				{ opacity: 0, ease: Power4.easeInOut },
+				"+=0.2"
+			);
+			tlW.to(
+				[".sm-wrapper", ".lang-selector", ".night-selector"],
+				0.5,
+				{ opacity: 0 },
+				"-=0.5"
+			);
+			tlW.to(".rect-main", 0.5, { opacity: 1 }, "-=0.5");
+			tlW.call(() => {
+				document.getElementById("anim-circle").beginElement();
+			});
+		};
+		const goto_contact = () => {
+			console.log("contact");
+		};
+		const nextPage = () => {
+			if (currentPage !== 4) {
+				this.setState({ currentPage: this.state.currentPage + 1 });
+			}
+		};
+		const prevPage = () => {
+			if (currentPage !== 0) {
+				this.setState({ currentPage: this.state.currentPage - 1 });
+				switch (currentPage) {
+					case 1:
+						goto_contact();
+						break;
+					case 2:
+						goto_work();
+						break;
+				}
+			}
+		};
 		return (
 			<div className='App'>
-				<LandingCube className='landing-rect' />
+				<LandingCube className='rect-main' />
 
 				{/* Landing */}
 				<div id='landing'>
@@ -281,22 +325,12 @@ export default class App extends Component {
 				</div>
 
 				{/* All pages */}
-				<div
-					className='ctrl ctrl-left'
-					onClick={() => {
-						this.setState({ currentPage: this.state.currentPage - 1 });
-					}}
-				>
+				<div className='ctrl ctrl-left' onClick={prevPage}>
 					<i className='fas fa-caret-left'></i>
 					<span></span>
 					<p>{CL.pageNames[currentPage - 1]}</p>
 				</div>
-				<div
-					className='ctrl ctrl-right'
-					onClick={() => {
-						this.setState({ currentPage: this.state.currentPage + 1 });
-					}}
-				>
+				<div className='ctrl ctrl-right' onClick={nextPage}>
 					<i className='fas fa-caret-right'></i>
 					<span></span>
 					<p>{CL.pageNames[currentPage + 1]}</p>
