@@ -16,6 +16,23 @@ body {
 	overflow: hidden;
 }
 
+.landing-rect {
+	width: 290px;
+	height: 290px;
+	position: absolute;
+	top: $top;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	opacity: 0;
+	g g rect {
+		fill: none;
+		stroke: #000;
+		stroke-miterlimit: 10;
+		stroke-width: 3px;
+		transform: translate(119.6px, 0) rotate(45deg) scale(0.7);
+	}
+}
+
 #rect-main {
 	position: absolute;
 	top: $top;

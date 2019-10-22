@@ -1,7 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 238.18 238.18">
-    <g id="fed1019f-cf33-46e4-a8da-d68ff47ab6e4" data-name="Layer 2">
-        <g id="a95cc1fc-d1a6-4b6e-996b-ce48a92ff24b" data-name="Layer 2">
-            <rect x="1.36" y="1.85" width="235.47" height="234.48" rx="117.24" transform="translate(119.09 -49.33) rotate(45)" style="fill:none;stroke:#000;stroke-miterlimit:10;stroke-width:3px"/>
+    <g data-name="Layer 2">
+        <g data-name="Layer 2">
+            <rect x="1.36" y="1.85" width="235.47" height="234.48" rx="0" >
+            <animate id="anim-circle" begin="indefinite" attributeName="rx" dur="700ms" to="117.24"/>
+            </rect>
         </g>
     </g>
 </svg>

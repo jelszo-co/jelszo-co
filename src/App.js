@@ -5,7 +5,7 @@ import axios from "axios";
 
 import { ReactComponent as LandingCenter } from "./assets/Landing_main.svg";
 import { ReactComponent as NightSwitch } from "./assets/Landing_nightswitch.svg";
-// import { ReactComponent as LandingCube } from "./assets/Landing_cube.svg";
+import { ReactComponent as LandingCube } from "./assets/Landing_cube.svg";
 
 export default class App extends Component {
 	constructor(props) {
@@ -121,9 +121,11 @@ export default class App extends Component {
 	};
 	setAutoNight = () => {
 		this.setState({
-			isAutoNightActive: !this.state.isAutoNightActive,
-			isNight: false
+			isAutoNightActive: !this.state.isAutoNightActive
 		});
+		if (this.state.isAutoNightActive === false) {
+			this.setState({ isNight: false });
+		}
 		localStorage.setItem("isAutoNightActive", !this.state.isAutoNightActive);
 	};
 	render() {
@@ -226,53 +228,59 @@ export default class App extends Component {
 		}
 		return (
 			<div className='App'>
-				<LandingCenter />
-				{/* <LandingCube /> */}
-				<div id='landing-center-wrapper'>
-					<h1 id='landing-center-text'> </h1>
-					<span id='playhead'></span>
-				</div>
-				<div className='sm-wrapper'>
-					<i
-						className='fab fa-facebook-messenger'
-						onClick={() => {
-							window.location.href = "https://m.me/jelszoco";
+				<LandingCube className='landing-rect' />
+
+				{/* Landing */}
+				<div id='landing'>
+					<LandingCenter />
+					<div id='landing-center-wrapper'>
+						<h1 id='landing-center-text'> </h1>
+						<span id='playhead'></span>
+					</div>
+					<div className='sm-wrapper'>
+						<i
+							className='fab fa-facebook-messenger'
+							onClick={() => {
+								window.location.href = "https://m.me/jelszoco";
+							}}
+						></i>
+						<i
+							className='fab fa-instagram'
+							onClick={() => {
+								window.location.href = "https://instagram.com/jelszoco";
+							}}
+						></i>
+						<i
+							className='fab fa-github'
+							onClick={() => {
+								window.location.href = "https://github.com/jelszo-co";
+							}}
+						></i>
+					</div>
+					<div className='lang-selector' onClick={this.changeLang}>
+						<h3>{CL.name}</h3>
+						<h3>{CL.opposName}</h3>
+					</div>
+					<div className='night-selector' onClick={this.setAutoNight}>
+						<NightSwitch
+							className={`${
+								this.state.isAutoNightActive
+									? "nightswitch-colored"
+									: "nightswitch-gray"
+							}`}
+						/>
+					</div>
+					<p
+						className='nightswitch-tooltip'
+						style={{
+							color: `${this.state.isAutoNightActive ? "#bf0b6e" : "#000000"}`
 						}}
-					></i>
-					<i
-						className='fab fa-instagram'
-						onClick={() => {
-							window.location.href = "https://instagram.com/jelszoco";
-						}}
-					></i>
-					<i
-						className='fab fa-github'
-						onClick={() => {
-							window.location.href = "https://github.com/jelszo-co";
-						}}
-					></i>
+					>
+						Automatic night mode
+					</p>
 				</div>
-				<div className='lang-selector' onClick={this.changeLang}>
-					<h3>{CL.name}</h3>
-					<h3>{CL.opposName}</h3>
-				</div>
-				<div className='night-selector' onClick={this.setAutoNight}>
-					<NightSwitch
-						className={`${
-							this.state.isAutoNightActive
-								? "nightswitch-colored"
-								: "nightswitch-gray"
-						}`}
-					/>
-				</div>
-				<p
-					className='nightswitch-tooltip'
-					style={{
-						color: `${this.state.isAutoNightActive ? "#bf0b6e" : "#000000"}`
-					}}
-				>
-					Automatic night mode
-				</p>
+
+				{/* All pages */}
 				<div
 					className='ctrl ctrl-left'
 					onClick={() => {
