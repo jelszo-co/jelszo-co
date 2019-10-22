@@ -16,7 +16,7 @@ body {
 	overflow: hidden;
 }
 
-.rect-main {
+#rect-main {
 	width: 290px;
 	height: 290px;
 	position: absolute;
@@ -33,174 +33,211 @@ body {
 	}
 }
 
-#rect-landing {
-	position: absolute;
-	top: $top;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	height: 110vh;
-	opacity: 0;
-}
-
-.line-main {
-	fill: none;
-	stroke: #000;
-	stroke-miterlimit: 10;
-	stroke-width: 3pt;
-}
-
-.line-short {
-	stroke-dasharray: 4 1000;
-}
-
-.line-long {
-	opacity: 0;
-	stroke-dasharray: 4 1000;
-}
-
-#landing-center-wrapper {
-	font-family: "Staatliches";
-	position: absolute;
-	top: $top - 0.5%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	display: block;
-
-	h1 {
-		display: inline-block;
-		margin: 0;
-		padding: 0;
-		letter-spacing: 2px;
-		text-align: center;
+#landing {
+	#rect-landing {
+		position: absolute;
+		top: $top;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		height: 110vh;
+		opacity: 0;
 	}
 
-	span {
-		display: inline-block;
-		position: relative;
-		width: 3px;
-		height: 18pt;
-		margin: -1px 0;
-		background: $pink;
-		animation: blink 0.7s infinite ease-in-out;
+	.line-main {
+		fill: none;
+		stroke: #000;
+		stroke-miterlimit: 10;
+		stroke-width: 3pt;
+	}
+
+	.line-short {
+		stroke-dasharray: 4 1000;
+	}
+
+	.line-long {
+		opacity: 0;
+		stroke-dasharray: 4 1000;
+	}
+
+	#landing-center-wrapper {
+		font-family: "Staatliches";
+		position: absolute;
+		top: $top - 0.5%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		display: block;
+
+		h1 {
+			display: inline-block;
+			margin: 0;
+			padding: 0;
+			letter-spacing: 2px;
+			text-align: center;
+		}
+
+		span {
+			display: inline-block;
+			position: relative;
+			width: 3px;
+			height: 18pt;
+			margin: -1px 0;
+			background: $pink;
+			animation: blink 0.7s infinite ease-in-out;
+			opacity: 1;
+		}
+	}
+
+	.sm-wrapper {
+		position: absolute;
+		bottom: 1.5%;
+		left: 1%;
+		opacity: 0;
+
+		i {
+			margin: 10px;
+			font-size: 2rem;
+			cursor: pointer;
+			transition: 0.1s all ease-in-out;
+
+			&:hover {
+				transform: scale(1.1);
+			}
+		}
+	}
+
+	.lang-selector {
+		position: absolute;
+		bottom: -3%;
+		right: 2%;
+		opacity: 0;
+		cursor: pointer;
+
+		h3 {
+			margin: 0;
+			padding: 0;
+			text-transform: uppercase;
+			font-family: "Oswald";
+			font-weight: 600;
+			font-size: 1.8rem;
+			transition: 0.1s all ease-in-out;
+
+			&:nth-child(2) {
+				opacity: 0;
+				transform: none;
+				color: $pink;
+			}
+		}
+		&:hover {
+			h3 {
+				transform: none;
+				&:nth-child(1) {
+					opacity: 0;
+					transform: translateY(-100%);
+				}
+				&:nth-child(2) {
+					opacity: 1;
+					transform: translateY(-100%);
+				}
+			}
+		}
+	}
+
+	.night-selector {
+		width: 40px;
+		position: absolute;
+		bottom: 1.5%;
+		right: 7%;
+		transform: translateX(50%);
+		opacity: 0;
+		cursor: pointer;
+		transition: 0.05s all ease-in-out;
+		transform-origin: center;
+		z-index: 2;
+		.ns-moon {
+			stroke-linejoin: round;
+			fill: none;
+			stroke-width: 3px;
+		}
+
+		.ns-line {
+			fill: none;
+			stroke-width: 3px;
+			stroke-linecap: round;
+			stroke-miterlimit: 10;
+		}
+
+		&:hover {
+			.ns-line,
+			.ns-moon {
+				stroke: $pink;
+			}
+			.nightswitch {
+				transform: scale(1.05);
+			}
+		}
+	}
+
+	.nightswitch-colored g g * {
+		stroke: $pink;
+	}
+	.nightswitch-gray g g * {
+		stroke: $black;
+	}
+
+	.nightswitch-tooltip {
+		position: absolute;
+		bottom: calc(1.5% + 20px);
+		right: 7%;
+		transform: translateX(50%);
+		text-align: center;
+		text-transform: uppercase;
+		font-family: "Oswald";
+		font-weight: 300;
+		letter-spacing: 1px;
+		z-index: 1;
+		opacity: 0;
+		transition: 0.1s ease-in-out;
+	}
+
+	.night-selector:hover + .nightswitch-tooltip {
+		bottom: calc(1.5% + 45px);
 		opacity: 1;
 	}
 }
 
-.sm-wrapper {
-	position: absolute;
-	bottom: 1.5%;
-	left: 1%;
-	opacity: 0;
-
-	i {
-		margin: 10px;
-		font-size: 2rem;
-		cursor: pointer;
-		transition: 0.1s all ease-in-out;
-
-		&:hover {
-			transform: scale(1.1);
+#work {
+	.work__main-wrapper {
+		position: absolute;
+		top: 35%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		max-width: 50vw;
+		opacity: 0;
+		* {
+			margin: 0;
+			padding: 0;
+			text-align: center;
+			font-family: "Oswald";
+		}
+		h2 {
+			font-size: 3.5rem;
+			font-weight: 700;
+			text-transform: uppercase;
+		}
+		p {
+			font-size: 2rem;
+			font-weight: 300;
 		}
 	}
-}
-
-.lang-selector {
-	position: absolute;
-	bottom: -3%;
-	right: 2%;
-	opacity: 0;
-	cursor: pointer;
-
-	h3 {
-		margin: 0;
-		padding: 0;
-		text-transform: uppercase;
-		font-family: "Oswald";
-		font-weight: 600;
-		font-size: 1.8rem;
-		transition: 0.1s all ease-in-out;
-
-		&:nth-child(2) {
-			opacity: 0;
-			transform: none;
-			color: $pink;
-		}
+	#ionic {
+		position: absolute;
+		top: 65%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		width: 80px;
+		height: 80px;
+		opacity: 0;
 	}
-	&:hover {
-		h3 {
-			transform: none;
-			&:nth-child(1) {
-				opacity: 0;
-				transform: translateY(-100%);
-			}
-			&:nth-child(2) {
-				opacity: 1;
-				transform: translateY(-100%);
-			}
-		}
-	}
-}
-
-.night-selector {
-	width: 40px;
-	position: absolute;
-	bottom: 1.5%;
-	right: 7%;
-	transform: translateX(50%);
-	opacity: 0;
-	cursor: pointer;
-	transition: 0.05s all ease-in-out;
-	transform-origin: center;
-	z-index: 2;
-	.ns-moon {
-		stroke-linejoin: round;
-		fill: none;
-		stroke-width: 3px;
-	}
-
-	.ns-line {
-		fill: none;
-		stroke-width: 3px;
-		stroke-linecap: round;
-		stroke-miterlimit: 10;
-	}
-
-	&:hover {
-		.ns-line,
-		.ns-moon {
-			stroke: $pink;
-		}
-		.nightswitch {
-			transform: scale(1.05);
-		}
-	}
-}
-
-.nightswitch-colored g g * {
-	stroke: $pink;
-}
-.nightswitch-gray g g * {
-	stroke: $black;
-}
-
-.nightswitch-tooltip {
-	position: absolute;
-	bottom: calc(1.5% + 20px);
-	right: 7%;
-	transform: translateX(50%);
-	text-align: center;
-	text-transform: uppercase;
-	font-family: "Oswald";
-	font-weight: 300;
-	letter-spacing: 1px;
-	z-index: 1;
-	opacity: 0;
-	transition: 0.1s ease-in-out;
-}
-
-.night-selector:hover + .nightswitch-tooltip {
-	bottom: calc(1.5% + 45px);
-	opacity: 1;
 }
 
 .ctrl {

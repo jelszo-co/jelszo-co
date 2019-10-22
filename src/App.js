@@ -6,7 +6,7 @@ import axios from "axios";
 import { ReactComponent as LandingCenter } from "./assets/Landing_main.svg";
 import { ReactComponent as NightSwitch } from "./assets/Landing_nightswitch.svg";
 import { ReactComponent as LandingCube } from "./assets/Landing_cube.svg";
-
+import { ReactComponent as Ionic } from "./assets/ionic.svg";
 export default class App extends Component {
 	constructor(props) {
 		super(props);
@@ -18,19 +18,31 @@ export default class App extends Component {
 			};
 		}
 		this.state = {
-			lang: localStorage.getItem("lang") || "hu",
+			lang: localStorage.getItem("lang"),
 			CL: {},
 			EN: {
 				name: "en",
 				opposName: "hu",
 				introText: ["innovativity", "creativity"],
-				pageNames: ["contact", "work", "home", "about", "team"]
+				pageNames: ["contact", "work", "home", "about", "team"],
+				work: {
+					header: "The beginning",
+					main:
+						"In 2018, three high school students wanted to do more than what they did in the IT classes. They wanted to do breathtaking things. They soon found each other, and started working. But what was really breathtaking, is what came next...",
+					projects: []
+				}
 			},
 			HU: {
 				name: "hu",
 				opposName: "en",
 				introText: ["innovativitás", "kreativitás"],
-				pageNames: ["kapcsolat", "munkáink", "kezdőlap", "rólunk", "csapatunk"]
+				pageNames: ["kapcsolat", "munkáink", "kezdőlap", "rólunk", "csapatunk"],
+				work: {
+					header: "A kezdetek",
+					main:
+						"2018ban, három középiskolás diák többet akart, mint amit az informatika órákon tanultak. Ők igazán nagyszerű dolgokat akartak csinálni. Hamar egymásra találtak, és el is kezdtek munkálkodni. De az igazán lélegzetelállító az volt, ami ezután jött...",
+					projects: []
+				}
 			},
 			currentPage: 2,
 			paginationDots: newPagDots,
@@ -87,9 +99,12 @@ export default class App extends Component {
 
 		document.body.onkeyup = function(e) {
 			if (e.keyCode === 32) {
-				tl.currentLabel("elements");
+				tl.currentLabel("end");
 			}
 		};
+
+		// Auto parse language
+		console.log(window.navigator.language.split("-")[0].toLowerCase());
 	}
 	static getDerivedStateFromProps(props, state) {
 		let newPagDots = state.paginationDots,
@@ -101,10 +116,23 @@ export default class App extends Component {
 				newPagDots[i].current = false;
 			}
 		}
+
 		if (state.lang === "en") {
 			tempLang = state.EN;
-		} else {
+		} else if (state.lang === "hu") {
 			tempLang = state.HU;
+		} else {
+			if (localStorage.getItem("lang") === null) {
+				if (window.navigator.language.split("-")[0].toLowerCase() === "en") {
+					console.log("Auto-parsed language EN");
+					tempLang = state.EN;
+					localStorage.setItem("lang", "en");
+				} else {
+					console.log("Auto-parsed language HU");
+					tempLang = state.HU;
+					localStorage.setItem("lang", "en");
+				}
+			}
 		}
 
 		return {
@@ -244,10 +272,31 @@ export default class App extends Component {
 				{ opacity: 0 },
 				"-=0.5"
 			);
-			tlW.to(".rect-main", 0.5, { opacity: 1 }, "-=0.5");
+			tlW.to("#rect-main", 0.5, { opacity: 1 }, "-=0.5");
 			tlW.call(() => {
-				document.getElementById("anim-circle").beginElement();
+				document.querySelector("#anim-circle").beginElement();
 			});
+			tlW.to("#landing-center-text", 0.5, { opacity: 0 }, "-=0");
+			tlW.to("#rect-main", 1, {
+				top: "65%",
+				ease: Power4.easeInOut
+			});
+			tlW.to(
+				"#rect-main-obj",
+				1,
+				{
+					strokeWidth: 6,
+					ease: Power4.easeInOut
+				},
+				"-=1"
+			);
+			tlW.to(".work__main-wrapper", 0.5, { opacity: 1 });
+			tlW.to(
+				"#ionic",
+				0.9,
+				{ opacity: 1, rotation: 360, ease: Power4.easeOut },
+				"+=0.5"
+			);
 		};
 		const goto_contact = () => {
 			console.log("contact");
@@ -272,7 +321,7 @@ export default class App extends Component {
 		};
 		return (
 			<div className='App'>
-				<LandingCube className='rect-main' />
+				<LandingCube id='rect-main' />
 
 				{/* Landing */}
 				<div id='landing'>
@@ -322,6 +371,15 @@ export default class App extends Component {
 					>
 						Automatic night mode
 					</p>
+				</div>
+
+				{/* Work */}
+				<div id='work'>
+					<div className='work__main-wrapper'>
+						<h2>{CL.work.header}</h2>
+						<p>{CL.work.main}</p>
+					</div>
+					<Ionic id='ionic' />
 				</div>
 
 				{/* All pages */}
