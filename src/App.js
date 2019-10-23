@@ -295,6 +295,7 @@ export default class App extends Component {
 			tlW.to("#rect-main", 0.5, { opacity: 1 }, "-=0.5");
 			tlW.call(() => {
 				document.querySelector("#anim-circle").beginElement();
+				document.querySelector("#fillW-circle").beginElement();
 			});
 			tlW.to("#landing-center-text", 0.5, { opacity: 0 }, "-=0");
 			tlW.to("#rect-main", 1, {
