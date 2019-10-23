@@ -191,8 +191,12 @@ export default class App extends Component {
 		document.addEventListener("scroll", () => {
 			if (window.pageYOffset >= 10) {
 				document.querySelector(".dots-wrapper").style.opacity = 0;
+				document.getElementsByClassName("ctrl")[0].style.opacity = 0;
+				document.getElementsByClassName("ctrl")[1].style.opacity = 0;
 			} else {
 				document.querySelector(".dots-wrapper").style.opacity = 1;
+				document.getElementsByClassName("ctrl")[0].style.opacity = 1;
+				document.getElementsByClassName("ctrl")[1].style.opacity = 1;
 			}
 		});
 	}
