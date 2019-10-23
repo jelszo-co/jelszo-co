@@ -9,11 +9,11 @@ $top: 48%;
 	color: #fff;
 }
 
-html,
-body {
+html {
 	margin: 0;
 	padding: 0;
-	overflow-x: hidden;
+	// overflow: scroll;
+	scroll-behavior: smooth;
 }
 
 #rect-main {
@@ -247,6 +247,7 @@ body {
 		left: 50%;
 		transform: translateX(-50%);
 		border: 2px solid black;
+		margin-bottom: 40vh;
 	}
 }
 

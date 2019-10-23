@@ -29,7 +29,47 @@ export default class App extends Component {
 					header: "The beginning",
 					main:
 						"In 2018, three high school students wanted to do more than what they did in the IT classes. They wanted to do breathtaking things. They soon found each other, and started working. It was the birth of these awesome works...",
-					projects: []
+					projects: [
+						{
+							title: "Pakura E-Sport",
+							p_url: "./assets/projects/pakura.png",
+							link: "https://pakura.jelszo.co",
+							result: "II. place",
+							year: "2018.",
+							text:
+								"A website for a competetion organized by the Nyíregyházi Széchenyi István Secondary School about an imaginary e-sports team."
+						},
+
+						{
+							title: "II. Innovation Marathon",
+							p_url: "./assets/projects/pakura.png",
+							link: "http://bit.ly/laduer",
+							result: "III. place",
+							year: "2019.",
+							text:
+								"Our project for the II. Innovation Marathon organized by Lauder Javne Secondary School."
+						},
+
+						{
+							title: "KFG short movie",
+							p_url: "./assets/projects/kfg.png",
+							link: "http://bit.ly/kfgfilm",
+							result: "",
+							year: "2019.",
+							text:
+								"A short, promotional movie for the Nyíregyházi Kölcsey Ferenc Secondary School."
+						},
+
+						{
+							title: "Playlist webpage",
+							p_url: "./assets/projects/playlist.png",
+							link: "https://playlist.jelszo.co",
+							result: "",
+							year: "2019.",
+							text:
+								"A webpage for the Nyíregyházi Kölcsey Ferenc Secondary School's studio, where the students can request their favourite songs."
+						}
+					]
 				}
 			},
 			HU: {
@@ -41,7 +81,45 @@ export default class App extends Component {
 					header: "A kezdetek",
 					main:
 						"2018-ban, három középiskolás diák többet akart, mint amit az informatika órákon tanultak. Ők igazán nagyszerű dolgokat akartak csinálni. Hamar egymásra találtak, és el is kezdtek munkálkodni. Így születtek meg ezek a remek munkák...",
-					projects: []
+					projects: [
+						{
+							title: "Pakura E-Sport",
+							p_url: "./assets/projects/pakura.png",
+							result: "II. helyezés",
+							year: "2018.",
+							text:
+								"A Nyíregyházi Széchenyi István Szakgimnázium által meghirdetett webfejlesztő versenyre készített, elképzelt e-sport csapat weboldala."
+						},
+
+						{
+							title: "II. Innovációs Maraton",
+							p_url: "./assets/projects/pakura.png",
+							result: "III. helyezés",
+							year: "2019.",
+							text:
+								"A Lauder Javne Gimnázium által szervezett Innovációs Maratonra készített bemutatkozó kisfilmünk, valamint az ott elkészült munkánk."
+						},
+
+						{
+							title: "KFG Pornóvideó",
+							p_url: "./assets/projects/kfg.png",
+							link: "http://bit.ly/kfgfilm",
+							result: "",
+							year: "2019.",
+							text:
+								"A Nyíregyházi Kölcsey Ferenc Gimnáziumnak készített népszerűsítő kisfilm."
+						},
+
+						{
+							title: "Playlist weboldal",
+							p_url: "./assets/projects/playlist.png",
+							link: "https://playlist.jelszo.co",
+							result: "",
+							year: "2019.",
+							text:
+								"A Nyíregyházi Kölcsey Ferenc Gimnázium stúdiósainak készített weboldal. ahová a diákok a saját kedvenc zenéiket küldhetik be."
+						}
+					]
 				}
 			},
 			currentPage: 2,
@@ -111,8 +189,6 @@ export default class App extends Component {
 
 		// Hide pagination on scroll
 		document.addEventListener("scroll", () => {
-			console.log(window.pageYOffset);
-
 			if (window.pageYOffset >= 10) {
 				document.querySelector(".dots-wrapper").style.opacity = 0;
 			} else {
@@ -148,8 +224,8 @@ export default class App extends Component {
 				}
 			}
 		}
-
 		if (state.currentPage === 1) {
+			window.scrollTo(0, 0);
 			document.querySelector("html").style.overflowY = "scroll";
 		} else {
 			document.querySelector("html").style.overflowY = "hidden";
