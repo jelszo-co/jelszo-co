@@ -182,10 +182,9 @@ export default class App extends Component {
 		};
 
 		// Set wCanvas width
-		document.querySelector("#wCanvas").style.width =
-			window.innerWidth * 0.8 + "px";
-		document.querySelector("#wCanvas").style.height =
-			400 + CL.work.projects.length * 500 + "px";
+		document.querySelector("#wCanvas").width = window.innerWidth * 0.8;
+		document.querySelector("#wCanvas").height =
+			400 + CL.work.projects.length * 500;
 
 		// Hide pagination on scroll
 		document.addEventListener("scroll", () => {
@@ -232,7 +231,8 @@ export default class App extends Component {
 			window.scrollTo(0, 0);
 			document.querySelector("html").style.overflowY = "scroll";
 		} else {
-			document.querySelector("html").style.overflowY = "hidden";
+			// TODO: change to hidden
+			document.querySelector("html").style.overflowY = "scroll";
 		}
 
 		return {
@@ -356,9 +356,13 @@ export default class App extends Component {
 					});
 			}
 		}
+		const toRad = (deg) => {
+			return deg * (Math.PI / 180);
+		};
 		const goto_work = () => {
 			console.log("work");
-
+			const canvas = document.getElementById("wCanvas");
+			const ctx = canvas.getContext("2d");
 			const tlW = new TimelineMax();
 			tlW.to(
 				"#rect-landing",
@@ -400,6 +404,31 @@ export default class App extends Component {
 			);
 			tlW.to("#wCanvas", 0, { display: "block" });
 			tlW.to("#wCanvas", 0.5, { opacity: 1 });
+			const cWidth = canvas.width;
+			const cHeight = canvas.height;
+			console.log(cWidth, cHeight);
+			ctx.beginPath();
+			ctx.moveTo(cWidth / 2, 0);
+			ctx.lineTo(cWidth / 2, 200);
+			ctx.moveTo(cWidth / 2 + 100, 300);
+			ctx.arc(cWidth / 2 + 100, 200, 100, toRad(90), toRad(180), false);
+			ctx.moveTo(cWidth / 2 + 100, 300);
+			ctx.lineTo((cWidth / 6) * 5, 300);
+			ctx.arc((cWidth / 6) * 5, 400, 100, toRad(-90), toRad(0), false);
+			ctx.lineTo((cWidth / 6) * 5 + 100, 700);
+			ctx.strokeStyle = "#000000";
+			ctx.lineWidth = 3;
+			ctx.setLineDash([30, 10]);
+			ctx.stroke();
+
+			ctx.beginPath();
+			ctx.setLineDash([]);
+			ctx.arc((cWidth / 6) * 5 + 100, 500, 100, toRad(0), toRad(360), false);
+			ctx.strokeStyle = "#000000";
+			ctx.fillStyle = "#fff";
+			ctx.lineWidth = 6;
+			ctx.fill();
+			ctx.stroke();
 		};
 		const goto_contact = () => {
 			console.log("contact");
