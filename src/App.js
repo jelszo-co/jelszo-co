@@ -28,7 +28,7 @@ export default class App extends Component {
 				work: {
 					header: "The beginning",
 					main:
-						"In 2018, three high school students wanted to do more than what they did in the IT classes. They wanted to do breathtaking things. They soon found each other, and started working. But what was really breathtaking, is what came next...",
+						"In 2018, three high school students wanted to do more than what they did in the IT classes. They wanted to do breathtaking things. They soon found each other, and started working. It was the birth of these awesome works...",
 					projects: []
 				}
 			},
@@ -40,7 +40,7 @@ export default class App extends Component {
 				work: {
 					header: "A kezdetek",
 					main:
-						"2018ban, három középiskolás diák többet akart, mint amit az informatika órákon tanultak. Ők igazán nagyszerű dolgokat akartak csinálni. Hamar egymásra találtak, és el is kezdtek munkálkodni. De az igazán lélegzetelállító az volt, ami ezután jött...",
+						"2018-ban, három középiskolás diák többet akart, mint amit az informatika órákon tanultak. Ők igazán nagyszerű dolgokat akartak csinálni. Hamar egymásra találtak, és el is kezdtek munkálkodni. Így születtek meg ezek a remek munkák...",
 					projects: []
 				}
 			},
@@ -54,12 +54,12 @@ export default class App extends Component {
 	componentDidMount() {
 		const { CL } = this.state;
 		const tl = new TimelineMax();
-		tl.to("#landing-center-text", 1, { text: CL.introText[0] }, "+=2");
-		tl.to("#landing-center-text", 0.5, { text: "" }, "+=1.5");
-		tl.to("#landing-center-text", 1, { text: CL.introText[1] }, "+=1");
-		tl.to("#landing-center-text", 0.5, { text: "" }, "+=1.5");
-		tl.to("#landing-center-text", 1, { text: "Jelszo Co." }, "+=1");
-		tl.to("#playhead", 0.5, { opacity: 0, animation: "none" }, "+=1");
+		tl.to("#landing-center-text", 1, { text: CL.introText[0] }, "+=1");
+		tl.to("#landing-center-text", 0.5, { text: "" }, "+=1");
+		tl.to("#landing-center-text", 1, { text: CL.introText[1] }, "+=0.5");
+		tl.to("#landing-center-text", 0.5, { text: "" }, "+=1");
+		tl.to("#landing-center-text", 1, { text: "Jelszo Co." }, "+=0.5");
+		tl.to("#playhead", 0.5, { opacity: 0, animation: "none" }, "+=0.5");
 		tl.addLabel("svg");
 		tl.to("#rect-landing", 0.2, { opacity: 1 });
 		tl.to(
@@ -103,8 +103,22 @@ export default class App extends Component {
 			}
 		};
 
-		// Auto parse language
-		console.log(window.navigator.language.split("-")[0].toLowerCase());
+		// Set wCanvas width
+		document.querySelector("#wCanvas").style.width =
+			window.innerWidth * 0.8 + "px";
+		document.querySelector("#wCanvas").style.height =
+			400 + CL.work.projects.length * 500 + "px";
+
+		// Hide pagination on scroll
+		document.addEventListener("scroll", () => {
+			console.log(window.pageYOffset);
+
+			if (window.pageYOffset >= 10) {
+				document.querySelector(".dots-wrapper").style.opacity = 0;
+			} else {
+				document.querySelector(".dots-wrapper").style.opacity = 1;
+			}
+		});
 	}
 	static getDerivedStateFromProps(props, state) {
 		let newPagDots = state.paginationDots,
@@ -133,6 +147,12 @@ export default class App extends Component {
 					localStorage.setItem("lang", "en");
 				}
 			}
+		}
+
+		if (state.currentPage === 1) {
+			document.querySelector("html").style.overflowY = "scroll";
+		} else {
+			document.querySelector("html").style.overflowY = "hidden";
 		}
 
 		return {
@@ -297,6 +317,8 @@ export default class App extends Component {
 				{ opacity: 1, rotation: 360, ease: Power4.easeOut },
 				"+=0"
 			);
+			tlW.to("#wCanvas", 0, { display: "block" });
+			tlW.to("#wCanvas", 0.5, { opacity: 1 });
 		};
 		const goto_contact = () => {
 			console.log("contact");
@@ -380,6 +402,7 @@ export default class App extends Component {
 						<p>{CL.work.main}</p>
 					</div>
 					<Ionic id='ionic' />
+					<canvas id='wCanvas'></canvas>
 				</div>
 
 				{/* All pages */}
