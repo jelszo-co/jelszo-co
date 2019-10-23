@@ -406,6 +406,7 @@ export default class App extends Component {
 			tlW.to("#wCanvas", 0.5, { opacity: 1 });
 			const cWidth = canvas.width;
 			const cHeight = canvas.height;
+			// TODO: migrate canvas to full window width
 			console.log(cWidth, cHeight);
 			ctx.beginPath();
 			ctx.moveTo(cWidth / 2, 0);
