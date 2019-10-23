@@ -322,6 +322,33 @@ body {
 	left: 51%;
 	transform: translateX(-50%);
 	opacity: 0;
+
+	&:hover {
+		.dot-flavor,
+		.dot-flavor-line {
+			opacity: 1;
+		}
+		#df0,
+		#dfl0 {
+			transform: translateX(-100%);
+		}
+		#df1,
+		#dfl1 {
+			transform: translate(-100%, -100%);
+		}
+		#df2,
+		#dfl2 {
+			transform: translate(-50%, -100%);
+		}
+		#df3,
+		#dfl3 {
+			transform: translate(100%, -100%);
+		}
+		#df4,
+		#dfl4 {
+			transform: translateX(100%);
+		}
+	}
 }
 
 .dot {
@@ -331,13 +358,101 @@ body {
 	margin: 2pt;
 	border: 1.5pt solid $black;
 	border-radius: 500px;
-	cursor: pointer;
 	transition: 0.15s all ease-in-out;
 	background: white;
 }
 
 .dot-active {
 	background: $black;
+}
+
+.dots-flavor {
+	.dot-flavor {
+		position: absolute;
+		text-transform: uppercase;
+		font-family: "Oswald";
+		font-weight: 300;
+		display: block;
+		margin: 0;
+		padding: 0;
+		opacity: 0;
+		transition: 0.1s all ease-in-out;
+	}
+	.dot-flavor-active {
+		color: #f00;
+	}
+	#df0 {
+		top: 0;
+		left: -25%;
+		transform: translateX(0);
+		text-align: right;
+	}
+	#df1 {
+		left: 35%;
+		top: -60%;
+		transform: translate(-100%, 50%);
+		text-align: right;
+	}
+	#df2 {
+		top: -160%;
+		left: 50%;
+		transform: translate(-50%, 150%);
+	}
+	#df3 {
+		right: 35%;
+		top: -60%;
+		transform: translate(100%, 50%);
+		text-align: left;
+	}
+	#df4 {
+		top: 0;
+		right: -25%;
+		transform: translateX(0);
+		text-align: left;
+	}
+	.dot-flavor-line {
+		position: absolute;
+		display: block;
+		background: $black;
+		opacity: 0;
+		transition: 0.1s all ease-in-out;
+	}
+	#dfl0 {
+		height: 1pt;
+		width: 18px;
+		top: 40%;
+		left: -3%;
+		transform: translateX(0);
+	}
+	#dfl1 {
+		height: 15px;
+		width: 1pt;
+		top: 0%;
+		left: 30%;
+		transform: translate(-100%, 0);
+	}
+	#dfl2 {
+		height: 40px;
+		width: 0.5pt;
+		top: 0%;
+		left: 50%;
+		transform: translate(-100%, 150%);
+		transition: none;
+	}
+	#dfl3 {
+		height: 15px;
+		width: 1pt;
+		top: 0%;
+		right: 30%;
+		transform: translate(100%, 0);
+	}
+	#dfl4 {
+		height: 1pt;
+		width: 18px;
+		top: 40%;
+		right: -3%;
+		transform: translateX(0);
+	}
 }
 
 @keyframes blink {

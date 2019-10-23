@@ -295,7 +295,7 @@ export default class App extends Component {
 				"#ionic",
 				0.9,
 				{ opacity: 1, rotation: 360, ease: Power4.easeOut },
-				"+=0.5"
+				"+=0"
 			);
 		};
 		const goto_contact = () => {
@@ -394,21 +394,47 @@ export default class App extends Component {
 					<p>{CL.pageNames[currentPage + 1]}</p>
 				</div>
 				<div className='dots-wrapper'>
-					{this.state.paginationDots.map((dot) => {
-						if (dot.current === true) {
-							return <span className='dot dot-active' key={dot.id}></span>;
-						} else {
-							return (
-								<span
-									key={dot.id}
-									className='dot'
-									onClick={() => {
-										this.setState({ currentPage: dot.id });
-									}}
-								></span>
-							);
-						}
-					})}
+					<div className='dot-hover-container'>
+						{this.state.paginationDots.map((dot) => {
+							if (dot.current === true) {
+								return <span className='dot dot-active' key={dot.id}></span>;
+							} else {
+								return <span key={dot.id} className='dot'></span>;
+							}
+						})}
+					</div>
+					<div className='dots-flavor'>
+						{this.state.paginationDots.map((dot) => {
+							if (dot.current === true) {
+								return (
+									<React.Fragment key={dot.id}>
+										<span
+											id={`df${dot.id}`}
+											className='dot-flavor dot-flavor-active'
+										>
+											{CL.pageNames[dot.id]}
+										</span>
+										<span
+											id={`dfl${dot.id}`}
+											className='dot-flavor-line'
+										></span>
+									</React.Fragment>
+								);
+							} else {
+								return (
+									<React.Fragment key={dot.id}>
+										<span id={`df${dot.id}`} className='dot-flavor'>
+											{CL.pageNames[dot.id]}
+										</span>
+										<span
+											id={`dfl${dot.id}`}
+											className='dot-flavor-line'
+										></span>
+									</React.Fragment>
+								);
+							}
+						})}
+					</div>
 				</div>
 			</div>
 		);
