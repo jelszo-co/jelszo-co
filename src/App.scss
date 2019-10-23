@@ -271,6 +271,7 @@ body {
 		width: 28px;
 		opacity: 0;
 		background: #000;
+		pointer-events: none;
 	}
 
 	p {
@@ -285,6 +286,7 @@ body {
 		font-size: 2rem;
 		text-transform: uppercase;
 		transition: 0.1s all ease-in-out;
+		pointer-events: none;
 	}
 }
 
@@ -377,6 +379,7 @@ body {
 		padding: 0;
 		opacity: 0;
 		transition: 0.1s all ease-in-out;
+		pointer-events: none;
 	}
 	.dot-flavor-active {
 		color: #f00;
@@ -416,6 +419,7 @@ body {
 		background: $black;
 		opacity: 0;
 		transition: 0.1s all ease-in-out;
+		pointer-events: none;
 	}
 	#dfl0 {
 		height: 1pt;
