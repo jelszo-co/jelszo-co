@@ -82,6 +82,7 @@ export default class App extends Component {
 					main:
 						"2018-ban, három középiskolás diák többet akart, mint amit az informatika órákon tanultak. Ők igazán nagyszerű dolgokat akartak csinálni. Hamar egymásra találtak, és el is kezdtek munkálkodni. Így születtek meg ezek a remek munkák...",
 					projects: [
+						{title:"asd"},
 						{
 							title: "Pakura E-Sport",
 							p_url: "./assets/projects/pakura.png",
@@ -365,7 +366,6 @@ export default class App extends Component {
 			tlW.to("#wCanvas", 0.5, { opacity: 1 });
 			const cWidth = canvas.width;
 			const cHeight = canvas.height;
-			console.log(cWidth, cHeight);
 
 			// Main line
 			ctx.beginPath();
@@ -432,6 +432,32 @@ export default class App extends Component {
 				ctx.fill();
 				ctx.stroke();
 			}
+			ctx.beginPath();
+			if (CL.work.projects.length % 2 === 0) {
+				console.log("páros");
+				// ctx.moveTo(cWidth / 2 - 100, 400 + CL.work.projects.length * 500);
+				ctx.arc(
+					(cWidth / 4) * 2 - 100,
+					400 + CL.work.projects.length * 500,
+					100,
+					toRad(-90),
+					toRad(0),
+					false
+				);
+			} else {
+				ctx.arc(
+					(cWidth / 4) * 2 + 100,
+					400 + CL.work.projects.length * 500,
+					100,
+					toRad(-90),
+					toRad(-180),
+					true
+				);
+			}
+			ctx.strokeStyle = "#000000";
+			ctx.lineWidth = 3;
+			ctx.setLineDash([30, 10]);
+			ctx.stroke();
 		};
 		const goto_contact = () => {
 			console.log("contact");
