@@ -30,43 +30,47 @@ export default class App extends Component {
 					header: "The beginning",
 					main:
 						"In 2018, three high school students wanted to do more than what they did in the IT classes. They wanted to do breathtaking things. They soon found each other, and started working. It was the birth of these awesome works...",
+					endtitle: "The future",
+					endtext:
+						"What comes with the future? No one knows. But we know one thig for sure: we love what we do, and we won't stop.",
+					toTop: "Back to top",
 					projects: [
 						{
-							title: "Pakura E-Sport",
-							p_url: "./assets/projects/pakura.png",
+							title: "Pakura E-Sports",
+							p_url: "./projects/pakura.png",
 							link: "https://pakura.jelszo.co",
 							result: "II. place",
-							year: "2018.",
+							year: "2019.04.",
 							text:
 								"A website for a competetion organized by the Nyíregyházi Széchenyi István Secondary School about an imaginary e-sports team."
 						},
 
 						{
 							title: "II. Innovation Marathon",
-							p_url: "./assets/projects/pakura.png",
+							p_url: "./projects/lauder.jpg",
 							link: "http://bit.ly/laduer",
 							result: "III. place",
-							year: "2019.",
+							year: "2019.05.",
 							text:
 								"Our project for the II. Innovation Marathon organized by Lauder Javne Secondary School."
 						},
 
 						{
 							title: "KFG short movie",
-							p_url: "./assets/projects/kfg.png",
+							p_url: "./projects/kfg.png",
 							link: "http://bit.ly/kfgfilm",
-							result: "",
-							year: "2019.",
+							result: "-",
+							year: "2019.06.",
 							text:
 								"A short, promotional movie for the Nyíregyházi Kölcsey Ferenc Secondary School."
 						},
 
 						{
-							title: "Playlist webpage",
-							p_url: "./assets/projects/playlist.png",
+							title: "Playlist",
+							p_url: "./projects/playlist.png",
 							link: "https://playlist.jelszo.co",
-							result: "",
-							year: "2019.",
+							result: "-",
+							year: "2019.09.",
 							text:
 								"A webpage for the Nyíregyházi Kölcsey Ferenc Secondary School's studio, where the students can request their favourite songs."
 						}
@@ -82,41 +86,45 @@ export default class App extends Component {
 					header: "A kezdetek",
 					main:
 						"2018-ban, három középiskolás diák többet akart, mint amit az informatika órákon tanultak. Ők igazán nagyszerű dolgokat akartak csinálni. Hamar egymásra találtak, és el is kezdtek munkálkodni. Így születtek meg ezek a remek munkák...",
+					endtitle: "A jövő",
+					toTop: "Vissza a tetejére",
+					endtext:
+						"Vajon mit hoz a jövő? Senki sem tudja. De egy dolog biztos: szeretjük amit csinálunk, és semmi sem állíthat meg minket.",
 					projects: [
 						{
-							title: "Pakura E-Sport",
-							p_url: "./assets/projects/pakura.png",
+							title: "Pakura E-Sports",
+							p_url: "./projects/pakura.png",
 							result: "II. helyezés",
-							year: "2018.",
+							year: "2019.04",
 							text:
 								"A Nyíregyházi Széchenyi István Szakgimnázium által meghirdetett webfejlesztő versenyre készített, elképzelt e-sport csapat weboldala."
 						},
 
 						{
 							title: "II. Innovációs Maraton",
-							p_url: "./assets/projects/pakura.png",
+							p_url: "./projects/lauder.jpg",
 							result: "III. helyezés",
-							year: "2019.",
+							year: "2019.05",
 							text:
 								"A Lauder Javne Gimnázium által szervezett Innovációs Maratonra készített bemutatkozó kisfilmünk, valamint az ott elkészült munkánk."
 						},
 
 						{
 							title: "KFG Pornóvideó",
-							p_url: "./assets/projects/kfg.png",
+							p_url: "./projects/kfg.png",
 							link: "http://bit.ly/kfgfilm",
-							result: "",
-							year: "2019.",
+							result: "-",
+							year: "2019.06",
 							text:
 								"A Nyíregyházi Kölcsey Ferenc Gimnáziumnak készített népszerűsítő kisfilm."
 						},
 
 						{
 							title: "Playlist weboldal",
-							p_url: "./assets/projects/playlist.png",
+							p_url: "./projects/playlist.png",
 							link: "https://playlist.jelszo.co",
-							result: "",
-							year: "2019.",
+							result: "-",
+							year: "2019.09",
 							text:
 								"A Nyíregyházi Kölcsey Ferenc Gimnázium stúdiósainak készített weboldal. ahová a diákok a saját kedvenc zenéiket küldhetik be."
 						}
@@ -127,7 +135,8 @@ export default class App extends Component {
 			paginationDots: newPagDots,
 			isAutoNightActive:
 				JSON.parse(localStorage.getItem("isAutoNightActive")) || false,
-			isNight: null
+			isNight: null,
+			scrollTopIndicator: false
 		};
 	}
 	componentDidMount() {
@@ -190,6 +199,8 @@ export default class App extends Component {
 		// Set Inf height
 		document.querySelector("#inf").style.top =
 			CL.work.projects.length * 500 + window.innerHeight * 0.65 + 590 + "px";
+		document.querySelector("#work__end-wrapper").style.top =
+			CL.work.projects.length * 500 + window.innerHeight * 0.65 + 740 + "px";
 
 		// Hide pagination on scroll
 		document.addEventListener("scroll", () => {
@@ -221,7 +232,6 @@ export default class App extends Component {
 			tempLang = state.HU;
 		}
 		if (state.currentPage === 1) {
-			window.scrollTo(0, 0);
 			document.querySelector("html").style.overflowY = "scroll";
 		} else {
 			// TODO: change to hidden
@@ -520,6 +530,17 @@ export default class App extends Component {
 			ctx.setLineDash([]);
 			ctx.fill();
 			ctx.stroke();
+
+			document.addEventListener("scroll", () => {
+				if (
+					window.innerHeight + window.scrollY >=
+					document.querySelector("#wCanvas").height + window.innerHeight * 0.9
+				) {
+					this.setState({ scrollTopIndicator: true });
+				} else {
+					this.setState({ scrollTopIndicator: false });
+				}
+			});
 		};
 		const goto_contact = () => {
 			console.log("contact");
@@ -606,12 +627,100 @@ export default class App extends Component {
 					<Inf id='inf' />
 					<canvas id='wCanvas'></canvas>
 					{CL.work.projects.map((pr) => {
+						let styleCard,
+							ta = {
+								textAlign:
+									CL.work.projects.indexOf(pr) % 2 === 0 ? "right" : "left"
+							};
+						if (CL.work.projects.indexOf(pr) % 2 === 0) {
+							styleCard = {
+								// jobb
+								top:
+									window.innerHeight * 0.65 +
+									CL.work.projects.indexOf(pr) * 500 +
+									538 +
+									"px",
+								right: window.innerWidth / 4 - 212 + "px"
+							};
+						} else {
+							styleCard = {
+								// bal
+								top:
+									window.innerHeight * 0.65 +
+									CL.work.projects.indexOf(pr) * 500 +
+									538 +
+									"px",
+								left: window.innerWidth / 4 - 212 + "px"
+							};
+						}
 						return (
-							<div>
-								<h1>asd</h1>
+							<div key={pr.title} className='pr-card' style={styleCard}>
+								<h4
+									style={{
+										left: CL.work.projects.indexOf(pr) % 2 === 0 ? "" : "100px",
+										right:
+											CL.work.projects.indexOf(pr) % 2 === 0 ? "100px" : "",
+										transform:
+											CL.work.projects.indexOf(pr) % 2 === 0
+												? "translate(50%, -50%)"
+												: "translate(-50%, -50%)"
+									}}
+								>
+									{pr.year}
+								</h4>
+								<div
+									className='content-wrapper'
+									style={{
+										left: CL.work.projects.indexOf(pr) % 2 === 0 ? "" : "250px",
+										right: CL.work.projects.indexOf(pr) % 2 === 0 ? "250px" : ""
+									}}
+								>
+									<img
+										src={pr.p_url}
+										alt={pr.title}
+										style={{
+											float:
+												CL.work.projects.indexOf(pr) % 2 === 0
+													? "right"
+													: "left"
+										}}
+									/>
+									<div className='text-wrapper'>
+										<h3 style={ta}>{pr.title}</h3>
+										<h5 style={ta}>{pr.result}</h5>
+										<p style={ta}>{pr.text}</p>
+										<p
+											className='pr__link'
+											style={ta}
+											onClick={() => {
+												window.location.href = pr.link;
+											}}
+										>
+											[Link]
+										</p>
+									</div>
+								</div>
 							</div>
 						);
 					})}
+					<div id='work__end-wrapper'>
+						<h2>{CL.work.endtitle}</h2>
+						<p>{CL.work.endtext}</p>
+					</div>
+					<div
+						id='scroller'
+						style={{
+							transform:
+								this.state.scrollTopIndicator === true
+									? "translate(-50%, -100%)"
+									: "translate(-50%, 100%)"
+						}}
+						onClick={() => {
+							window.scrollTo(0, 0);
+						}}
+					>
+						<i className='fas fa-chevron-up'></i> {CL.work.toTop}
+					</div>
 				</div>
 
 				{/* All pages */}

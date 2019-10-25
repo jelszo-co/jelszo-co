@@ -264,6 +264,108 @@ html {
 		margin-bottom: 40vh;
 		// border: 2px solid black;
 	}
+
+	.pr-card {
+		position: absolute;
+		height: 203px;
+		width: 65%;
+		transform: translateY(-50%);
+		* {
+			margin: 0;
+			padding: 0;
+			font-family: "Oswald";
+		}
+		h4 {
+			position: absolute;
+			top: 50%;
+			font-size: 2rem;
+			font-weight: 400;
+		}
+		.content-wrapper {
+			height: 100%;
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			width: calc(100% - 250px);
+			img {
+				margin: 0 15px;
+				height: 100%;
+				border: 4px solid black;
+				@media #{$laptop} {
+					height: 80%;
+				}
+			}
+			.text-wrapper {
+				h3 {
+					text-transform: uppercase;
+					font-weight: 600;
+					font-size: 1.8rem;
+				}
+				h5 {
+					font-weight: 400;
+					font-size: 1.3rem;
+					margin-bottom: 5px;
+				}
+				p {
+					font-weight: 200;
+					font-size: 1.4rem;
+					line-height: 1.7rem;
+				}
+				.pr__link {
+					margin-top: 10px;
+					text-decoration: underline;
+					color: #065fd4;
+					cursor: pointer;
+				}
+			}
+		}
+	}
+	#work__end-wrapper {
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+		text-align: center;
+		width: 50vw;
+		* {
+			margin: 0;
+			padding: 0;
+			font-family: "Oswald";
+		}
+		h2 {
+			font-size: 3.5rem;
+			font-weight: 700;
+			text-transform: uppercase;
+		}
+		p {
+			font-size: 2rem;
+			font-weight: 300;
+			letter-spacing: 2px;
+			@media #{$laptop} {
+				font-size: 1.8rem;
+			}
+		}
+	}
+	#scroller {
+		position: fixed;
+		bottom: -2%;
+		left: 50%;
+		transition: 0.1s all ease-in-out;
+		font-weight: 200;
+		text-transform: uppercase;
+		font-family: "Oswald";
+		font-size: 1.5rem;
+		cursor: pointer;
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		i {
+			margin: 0 10px;
+		}
+		&:hover {
+			color: $pink;
+		}
+	}
 }
 
 .ctrl {
