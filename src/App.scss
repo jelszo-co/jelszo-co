@@ -3,6 +3,8 @@ $black: #000000;
 $pink: #bf0b6e;
 $top: 48%;
 
+$laptop: "only screen and (max-width : 1380px)";
+
 ::selection,
 ::-moz-selection {
 	background: $black;
@@ -210,8 +212,11 @@ html {
 		top: 35%;
 		left: 50%;
 		transform: translate(-50%, -50%);
-		max-width: 50vw;
+		width: 60vw;
 		opacity: 0;
+		@media #{$laptop} {
+			top: 25%;
+		}
 		* {
 			margin: 0;
 			padding: 0;
@@ -226,6 +231,9 @@ html {
 		p {
 			font-size: 2rem;
 			font-weight: 300;
+			@media #{$laptop} {
+				font-size: 1.8rem;
+			}
 		}
 	}
 	#ionic {

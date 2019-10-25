@@ -18,7 +18,7 @@ export default class App extends Component {
 			};
 		}
 		this.state = {
-			lang: localStorage.getItem("lang"),
+			lang: localStorage.getItem("lang") || "hu",
 			CL: {},
 			EN: {
 				name: "en",
@@ -106,8 +106,7 @@ export default class App extends Component {
 							link: "http://bit.ly/kfgfilm",
 							result: "",
 							year: "2019.",
-							text:
-								"A Nyíregyházi Kölcsey Ferenc Gimnáziumnak készített népszerűsítő kisfilm."
+							text: "A Nyíregyházi Kölcsey Ferenc Gimnáziumnak készített népszerűsítő kisfilm."
 						},
 
 						{
@@ -124,8 +123,7 @@ export default class App extends Component {
 			},
 			currentPage: 2,
 			paginationDots: newPagDots,
-			isAutoNightActive:
-				JSON.parse(localStorage.getItem("isAutoNightActive")) || false,
+			isAutoNightActive: JSON.parse(localStorage.getItem("isAutoNightActive")) || false,
 			isNight: null
 		};
 	}
@@ -161,13 +159,7 @@ export default class App extends Component {
 		);
 		tl.addLabel("elements");
 		tl.to(
-			[
-				".sm-wrapper",
-				".lang-selector",
-				".ctrl",
-				".dots-wrapper",
-				".night-selector"
-			],
+			[".sm-wrapper", ".lang-selector", ".ctrl", ".dots-wrapper", ".night-selector"],
 			0.5,
 			{ opacity: 1 },
 			"+=0.8"
@@ -182,9 +174,8 @@ export default class App extends Component {
 		};
 
 		// Set wCanvas width
-		document.querySelector("#wCanvas").width = window.innerWidth * 0.8;
-		document.querySelector("#wCanvas").height =
-			400 + CL.work.projects.length * 500;
+		document.querySelector("#wCanvas").width = window.innerWidth;
+		document.querySelector("#wCanvas").height = 400 + CL.work.projects.length * 500;
 
 		// Hide pagination on scroll
 		document.addEventListener("scroll", () => {
@@ -214,18 +205,6 @@ export default class App extends Component {
 			tempLang = state.EN;
 		} else if (state.lang === "hu") {
 			tempLang = state.HU;
-		} else {
-			if (localStorage.getItem("lang") === null) {
-				if (window.navigator.language.split("-")[0].toLowerCase() === "en") {
-					console.log("Auto-parsed language EN");
-					tempLang = state.EN;
-					localStorage.setItem("lang", "en");
-				} else {
-					console.log("Auto-parsed language HU");
-					tempLang = state.HU;
-					localStorage.setItem("lang", "en");
-				}
-			}
 		}
 		if (state.currentPage === 1) {
 			window.scrollTo(0, 0);
@@ -288,10 +267,7 @@ export default class App extends Component {
 					},
 					() => {
 						console.log("Location denied.");
-						console.log(
-							"Country Code: ",
-							window.navigator.language.split("-")[1]
-						);
+						console.log("Country Code: ", window.navigator.language.split("-")[1]);
 						axios
 							.get(
 								`http://api.worldbank.org/v2/country/${window.navigator.language
@@ -304,9 +280,7 @@ export default class App extends Component {
 										`https://api.sunrise-sunset.org/json?lat=${res.data[1][0].latitude}&lng=${res.data[1][0].longitude}&formatted=0`
 									)
 									.then((res) => {
-										let sunriseMs = new Date(
-											res.data.results.sunrise
-										).getTime();
+										let sunriseMs = new Date(res.data.results.sunrise).getTime();
 										let sunsetMs = new Date(res.data.results.sunset).getTime();
 										if (sunriseMs < currentDate && sunsetMs > currentDate) {
 											console.log("day");
@@ -364,18 +338,8 @@ export default class App extends Component {
 			const canvas = document.getElementById("wCanvas");
 			const ctx = canvas.getContext("2d");
 			const tlW = new TimelineMax();
-			tlW.to(
-				"#rect-landing",
-				0.5,
-				{ opacity: 0, ease: Power4.easeInOut },
-				"+=0.2"
-			);
-			tlW.to(
-				[".sm-wrapper", ".lang-selector", ".night-selector"],
-				0.5,
-				{ opacity: 0 },
-				"-=0.5"
-			);
+			tlW.to("#rect-landing", 0.5, { opacity: 0, ease: Power4.easeInOut }, "+=0.2");
+			tlW.to([".sm-wrapper", ".lang-selector", ".night-selector"], 0.5, { opacity: 0 }, "-=0.5");
 			tlW.to("#rect-main", 0.5, { opacity: 1 }, "-=0.5");
 			tlW.call(() => {
 				document.querySelector("#anim-circle").beginElement();
@@ -396,40 +360,78 @@ export default class App extends Component {
 				"-=1"
 			);
 			tlW.to(".work__main-wrapper", 0.5, { opacity: 1 });
-			tlW.to(
-				"#ionic",
-				0.9,
-				{ opacity: 1, rotation: 360, ease: Power4.easeOut },
-				"+=0"
-			);
+			tlW.to("#ionic", 0.9, { opacity: 1, rotation: 360, ease: Power4.easeOut }, "+=0");
 			tlW.to("#wCanvas", 0, { display: "block" });
 			tlW.to("#wCanvas", 0.5, { opacity: 1 });
 			const cWidth = canvas.width;
 			const cHeight = canvas.height;
-			// TODO: migrate canvas to full window width
 			console.log(cWidth, cHeight);
+
+			// Main line
 			ctx.beginPath();
 			ctx.moveTo(cWidth / 2, 0);
 			ctx.lineTo(cWidth / 2, 200);
 			ctx.moveTo(cWidth / 2 + 100, 300);
 			ctx.arc(cWidth / 2 + 100, 200, 100, toRad(90), toRad(180), false);
-			ctx.moveTo(cWidth / 2 + 100, 300);
-			ctx.lineTo((cWidth / 6) * 5, 300);
-			ctx.arc((cWidth / 6) * 5, 400, 100, toRad(-90), toRad(0), false);
-			ctx.lineTo((cWidth / 6) * 5 + 100, 700);
+			for (let i = 0; i < CL.work.projects.length; i++) {
+				console.log(CL.work.projects[i]);
+				let multiplier = i * 500,
+					cf,
+					cfd1,
+					cfd3,
+					df;
+				if (i % 2 === 1) {
+					cf = -1;
+					df = -2;
+					cfd1 = -180;
+					cfd3 = true;
+				} else {
+					cf = 1;
+					df = 0;
+					cfd1 = 0;
+					cfd3 = false;
+				}
+				ctx.moveTo(cWidth / 2 + 100 * cf, 300 + multiplier);
+				ctx.lineTo((cWidth / 4) * (3 + df), 300 + multiplier);
+				ctx.arc((cWidth / 4) * (3 + df), 400 + multiplier, 100, toRad(-90), toRad(0 + cfd1), cfd3);
+				ctx.lineTo((cWidth / 4) * (3 + df) + 100 * cf, 700 + multiplier);
+				ctx.arc((cWidth / 4) * (3 + df), 700 + multiplier, 100, toRad(0 + cfd1), toRad(90), cfd3);
+				if (i === CL.work.projects.length - 1) {
+					ctx.lineTo((cWidth / 4) * 2 + 100 * cf, 800 + multiplier);
+				} else {
+					ctx.lineTo((cWidth / 4) * 2 + 100 * cf * -1, 800 + multiplier);
+				}
+			}
 			ctx.strokeStyle = "#000000";
 			ctx.lineWidth = 3;
 			ctx.setLineDash([30, 10]);
 			ctx.stroke();
-
-			ctx.beginPath();
-			ctx.setLineDash([]);
-			ctx.arc((cWidth / 6) * 5 + 100, 500, 100, toRad(0), toRad(360), false);
-			ctx.strokeStyle = "#000000";
-			ctx.fillStyle = "#fff";
-			ctx.lineWidth = 6;
-			ctx.fill();
-			ctx.stroke();
+			let scf, scf2;
+			for (let i = 0; i < CL.work.projects.length; i++) {
+				let multiplier = i * 500;
+				if (i % 2 === 1) {
+					scf = -2;
+					scf2 = -100;
+				} else {
+					scf = 0;
+					scf2 = 100;
+				}
+				ctx.beginPath();
+				ctx.setLineDash([]);
+				ctx.arc(
+					(cWidth / 4) * (3 + scf) + scf2,
+					550 + multiplier,
+					100,
+					toRad(0),
+					toRad(360),
+					false
+				);
+				ctx.strokeStyle = "#000000";
+				ctx.fillStyle = "#fff";
+				ctx.lineWidth = 6;
+				ctx.fill();
+				ctx.stroke();
+			}
 		};
 		const goto_contact = () => {
 			console.log("contact");
@@ -490,9 +492,7 @@ export default class App extends Component {
 					<div className='night-selector' onClick={this.setAutoNight}>
 						<NightSwitch
 							className={`${
-								this.state.isAutoNightActive
-									? "nightswitch-colored"
-									: "nightswitch-gray"
+								this.state.isAutoNightActive ? "nightswitch-colored" : "nightswitch-gray"
 							}`}
 						/>
 					</div>
@@ -542,16 +542,10 @@ export default class App extends Component {
 							if (dot.current === true) {
 								return (
 									<React.Fragment key={dot.id}>
-										<span
-											id={`df${dot.id}`}
-											className='dot-flavor dot-flavor-active'
-										>
+										<span id={`df${dot.id}`} className='dot-flavor dot-flavor-active'>
 											{CL.pageNames[dot.id]}
 										</span>
-										<span
-											id={`dfl${dot.id}`}
-											className='dot-flavor-line'
-										></span>
+										<span id={`dfl${dot.id}`} className='dot-flavor-line'></span>
 									</React.Fragment>
 								);
 							} else {
@@ -560,10 +554,7 @@ export default class App extends Component {
 										<span id={`df${dot.id}`} className='dot-flavor'>
 											{CL.pageNames[dot.id]}
 										</span>
-										<span
-											id={`dfl${dot.id}`}
-											className='dot-flavor-line'
-										></span>
+										<span id={`dfl${dot.id}`} className='dot-flavor-line'></span>
 									</React.Fragment>
 								);
 							}
