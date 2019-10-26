@@ -4,7 +4,7 @@
             <rect id="rect-main-obj" x="1.36" y="1.85" width="235.47" height="234.48" rx="0" >
             <animate id="anim-W-circle" begin="indefinite" attributeName="rx" dur="1000ms" to="117.24" values="0; 117.24" keyTimes="0; 1" fill="freeze" calcMode="spline" keySplines="0.77, 0, 0.175, 1" />
             <animate id="fill-W-circle" begin="indefinite" attributeName="fill" dur="10ms" to="#ffffff" fill="freeze" />
-            <animate id="anim-W-rect" begin="indefinite" attributeName="rx" dur="1000ms" to="0" values="117.24; 0" keyTimes="0; 1" fill="freeze" calcMode="spline" keySplines="0.77, 0, 0.175, 1" />
+            <animate id="anim-W-rect" begin="indefinite" attributeName="rx" dur="500ms" to="0" values="117.24; 0" keyTimes="0; 1" fill="freeze" calcMode="spline" keySplines="0.77, 0, 0.175, 1" />
             <animate id="fill-W-rect" begin="indefinite" attributeName="fill" dur="10ms" to="rgba(0, 0, 0, 0)" fill="freeze" />
             </rect>
         </g>

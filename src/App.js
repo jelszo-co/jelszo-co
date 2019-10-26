@@ -227,7 +227,7 @@ export default class App extends Component {
 			document.querySelector("html").style.overflowY = "scroll";
 		} else {
 			// TODO: change to hidden
-			document.querySelector("html").style.overflowY = "scroll";
+			document.querySelector("html").style.overflowY = "hidden";
 		}
 
 		return {
@@ -538,9 +538,9 @@ export default class App extends Component {
 				const tlLL = new TimelineMax();
 				tlLL.to("#wCanvas", 0.5, { opacity: 0 });
 				tlLL.to("#wCanvas", 0, { display: "none" });
-				tlLL.to(".dots-wrapper", 0, { display: "block" }, "-=0.5");
+				tlLL.to(".dots-wrapper", 0, { display: "block" }, "-=1");
 				tlLL.to(".dots-wrapper", 0.5, { opacity: 1 }, "-=0");
-				tlLL.to(".work__main-wrapper", 0.5, { opacity: 0 }, "-=0.2");
+				tlLL.to(".work__main-wrapper", 0.3, { opacity: 0 }, "-=0.2");
 				tlLL.to("#ionic", 0.5, { opacity: 0, ease: Power4.easeOut }, "+=0");
 				tlLL.to(
 					"#rect-main-obj",
@@ -560,19 +560,24 @@ export default class App extends Component {
 					},
 					"-=1"
 				);
-				tlLL.call(() => {
-					document.querySelector("#anim-W-rect").beginElement();
-					document.querySelector("#fill-W-rect").beginElement();
-				});
-				tlLL.to("#landing-center-text", 0.5, { opacity: 1 }, "-=0.2");
-				tlLL.to("#rect-main", 0.5, { opacity: 0 }, "+=0.5");
+				tlLL.call(
+					() => {
+						document.querySelector("#anim-W-rect").beginElement();
+						document.querySelector("#fill-W-rect").beginElement();
+					},
+					null,
+					null,
+					"-=0.5"
+				);
+				tlLL.to("#landing-center-text", 0.5, { opacity: 1 }, "+=0");
+				tlLL.to("#rect-main", 0.5, { opacity: 0 }, "-=0.5");
 				tlLL.to(
 					"#rect-landing",
 					0.5,
 					{ opacity: 1, ease: Power4.easeInOut },
 					"-=0.5"
 				);
-				tlLL.to([".sm-wrapper", ".br-menu"], 0.5, { opacity: 1 }, "+=0.3");
+				tlLL.to([".sm-wrapper", ".br-menu"], 0.5, { opacity: 1 }, "+=0.2");
 			}
 		};
 		const goto_about = () => {};
