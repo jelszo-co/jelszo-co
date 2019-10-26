@@ -29,7 +29,7 @@ export default class App extends Component {
 				work: {
 					header: "The beginning",
 					main:
-						"In 2018, three high school students wanted to do more than what they did in the IT classes. They wanted to do breathtaking things. They soon found each other, and started working. It was the birth of these awesome works...",
+						"In 2018, three high school students wanted to do more than what they did in the IT classes. They wanted to do breathtaking things. They soon found each other, and started working. It was the birth of these awesome works.",
 					endtitle: "The future",
 					endtext:
 						"What comes with the future? No one knows. But we know one thig for sure: we love what we do, and we won't stop.",
@@ -42,17 +42,17 @@ export default class App extends Component {
 							result: "II. place",
 							year: "2019.04.",
 							text:
-								"A website for a competetion organized by the Nyíregyházi Széchenyi István Secondary School about an imaginary e-sports team."
+								"A website for a competition, organized by the Nyíregyházi Széchenyi István Secondary School, about an imaginary e-sports team."
 						},
 
 						{
-							title: "II. Innovation Marathon",
+							title: "II. Lauder Innovation Marathon",
 							p_url: "./projects/lauder.jpg",
 							link: "http://bit.ly/laduer",
 							result: "III. place",
 							year: "2019.05.",
 							text:
-								"Our project for the II. Innovation Marathon organized by Lauder Javne Secondary School."
+								"Our project for the II. Lauder Innovation Marathon organized by Lauder Javne Secondary School."
 						},
 
 						{
@@ -72,7 +72,7 @@ export default class App extends Component {
 							result: "-",
 							year: "2019.09.",
 							text:
-								"A webpage for the Nyíregyházi Kölcsey Ferenc Secondary School's studio, where the students can request their favourite songs."
+								"A webpage for the Nyíregyházi Kölcsey Ferenc Secondary School's radio, where the students can request their favourite songs to be played in the radio."
 						}
 					]
 				}
@@ -85,7 +85,7 @@ export default class App extends Component {
 				work: {
 					header: "A kezdetek",
 					main:
-						"2018-ban, három középiskolás diák többet akart, mint amit az informatika órákon tanultak. Ők igazán nagyszerű dolgokat akartak csinálni. Hamar egymásra találtak, és el is kezdtek munkálkodni. Így születtek meg ezek a remek munkák...",
+						"2018-ban, három középiskolás diák többet akart, mint amit az informatika órákon tanultak. Ők igazán nagyszerű dolgokat akartak csinálni. Hamar egymásra is találtak, és el is kezdtek munkálkodni. Így születtek meg ezek a remek munkák.",
 					endtitle: "A jövő",
 					toTop: "Vissza a tetejére",
 					endtext:
@@ -97,7 +97,7 @@ export default class App extends Component {
 							result: "II. helyezés",
 							year: "2019.04",
 							text:
-								"A Nyíregyházi Széchenyi István Szakgimnázium által meghirdetett webfejlesztő versenyre készített, elképzelt e-sport csapat weboldala."
+								"A Nyíregyházi Széchenyi István Szakgimnázium által meghirdetett webfejlesztő versenyre készített, egy képzeletbeli e-sport csapat weboldala."
 						},
 
 						{
@@ -106,17 +106,17 @@ export default class App extends Component {
 							result: "III. helyezés",
 							year: "2019.05",
 							text:
-								"A Lauder Javne Gimnázium által szervezett Innovációs Maratonra készített bemutatkozó kisfilmünk, valamint az ott elkészült munkánk."
+								"A Lauder Javne Iskola által szervezett Innovációs Maratonra készített bemutatkozó kisfilmünk, valamint az ott elkészült munkánk."
 						},
 
 						{
-							title: "KFG Pornóvideó",
+							title: "KFG Promóvideó",
 							p_url: "./projects/kfg.png",
 							link: "http://bit.ly/kfgfilm",
 							result: "-",
 							year: "2019.06",
 							text:
-								"A Nyíregyházi Kölcsey Ferenc Gimnáziumnak készített népszerűsítő kisfilm."
+								"A Nyíregyházi Kölcsey Ferenc Gimnáziumnak készített promocionális rövidfilm."
 						},
 
 						{
@@ -126,7 +126,17 @@ export default class App extends Component {
 							result: "-",
 							year: "2019.09",
 							text:
-								"A Nyíregyházi Kölcsey Ferenc Gimnázium stúdiósainak készített weboldal. ahová a diákok a saját kedvenc zenéiket küldhetik be."
+								"A Nyíregyházi Kölcsey Ferenc Gimnázium stúdiósainak készített weboldal, ahová a diákok a saját kedvenc zenéiket küldhetik be."
+						},
+
+						{
+							title: "KFG weboldal",
+							p_url: "./projects/playlist.png",
+							link: "https://kolcseygimnazium.hu",
+							result: "-",
+							year: "2019.12",
+							text:
+								"A Nyíregyházi Kölcsey Ferenc Gimnáziumnak készített sulis weboldal."
 						}
 					]
 				}
@@ -171,13 +181,7 @@ export default class App extends Component {
 		);
 		tl.addLabel("elements");
 		tl.to(
-			[
-				".sm-wrapper",
-				".lang-selector",
-				".ctrl",
-				".dots-wrapper",
-				".night-selector"
-			],
+			[".sm-wrapper", ".br-menu", ".ctrl", ".dots-wrapper"],
 			0.5,
 			{ opacity: 1 },
 			"+=0.8"
@@ -594,27 +598,33 @@ export default class App extends Component {
 							}}
 						></i>
 					</div>
-					<div className='lang-selector' onClick={this.changeLang}>
-						<h3>{CL.name}</h3>
-						<h3>{CL.opposName}</h3>
+					<div className='br-menu'>
+						<div className='lang-selector' onClick={this.changeLang}>
+							<h3>{CL.name}</h3>
+							<h3>{CL.opposName}</h3>
+						</div>
+						<div className='night-selector' onClick={this.setAutoNight}>
+							<NightSwitch
+								className={`${
+									this.state.isAutoNightActive
+										? "nightswitch-colored"
+										: "nightswitch-gray"
+								}`}
+							/>
+						</div>
+						<p
+							className='nightswitch-tooltip'
+							style={{
+								color: `${this.state.isAutoNightActive ? "#bf0b6e" : "#000000"}`
+							}}
+						>
+							Automatic night mode{" "}
+							<i
+								className={`fas fa-check-circle`}
+								style={{ opacity: this.state.isAutoNightActive ? 1 : 0 }}
+							></i>
+						</p>
 					</div>
-					<div className='night-selector' onClick={this.setAutoNight}>
-						<NightSwitch
-							className={`${
-								this.state.isAutoNightActive
-									? "nightswitch-colored"
-									: "nightswitch-gray"
-							}`}
-						/>
-					</div>
-					<p
-						className='nightswitch-tooltip'
-						style={{
-							color: `${this.state.isAutoNightActive ? "#bf0b6e" : "#000000"}`
-						}}
-					>
-						Automatic night mode
-					</p>
 				</div>
 
 				{/* Work */}
