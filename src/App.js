@@ -59,7 +59,6 @@ export default class App extends Component {
 							title: "KFG short movie",
 							p_url: "./projects/kfg.png",
 							link: "http://bit.ly/kfgfilm",
-							result: "-",
 							year: "2019.06.",
 							text:
 								"A short, promotional movie for the Nyíregyházi Kölcsey Ferenc Secondary School."
@@ -69,7 +68,6 @@ export default class App extends Component {
 							title: "Playlist",
 							p_url: "./projects/playlist.png",
 							link: "https://playlist.jelszo.co",
-							result: "-",
 							year: "2019.09.",
 							text:
 								"A webpage for the Nyíregyházi Kölcsey Ferenc Secondary School's radio, where the students can request their favourite songs to be played in the radio."
@@ -113,7 +111,6 @@ export default class App extends Component {
 							title: "KFG Promóvideó",
 							p_url: "./projects/kfg.png",
 							link: "http://bit.ly/kfgfilm",
-							result: "-",
 							year: "2019.06",
 							text:
 								"A Nyíregyházi Kölcsey Ferenc Gimnáziumnak készített promocionális rövidfilm."
@@ -123,20 +120,9 @@ export default class App extends Component {
 							title: "Playlist weboldal",
 							p_url: "./projects/playlist.png",
 							link: "https://playlist.jelszo.co",
-							result: "-",
 							year: "2019.09",
 							text:
 								"A Nyíregyházi Kölcsey Ferenc Gimnázium stúdiósainak készített weboldal, ahová a diákok a saját kedvenc zenéiket küldhetik be."
-						},
-
-						{
-							title: "KFG weboldal",
-							p_url: "./projects/playlist.png",
-							link: "https://kolcseygimnazium.hu",
-							result: "-",
-							year: "2019.12",
-							text:
-								"A Nyíregyházi Kölcsey Ferenc Gimnáziumnak készített sulis weboldal."
 						}
 					]
 				}
@@ -195,17 +181,6 @@ export default class App extends Component {
 			}
 		};
 
-		// Set wCanvas width
-		document.querySelector("#wCanvas").width = window.innerWidth;
-		document.querySelector("#wCanvas").height =
-			800 + CL.work.projects.length * 500;
-
-		// Set Inf height
-		document.querySelector("#inf").style.top =
-			CL.work.projects.length * 500 + window.innerHeight * 0.65 + 590 + "px";
-		document.querySelector("#work__end-wrapper").style.top =
-			CL.work.projects.length * 500 + window.innerHeight * 0.65 + 740 + "px";
-
 		// Hide pagination on scroll
 		document.addEventListener("scroll", () => {
 			if (window.pageYOffset >= 10) {
@@ -218,6 +193,15 @@ export default class App extends Component {
 				document.getElementsByClassName("ctrl")[1].style.opacity = 1;
 			}
 		});
+		// set wCanvas width
+		document.querySelector("#wCanvas").width = window.innerWidth;
+		document.querySelector("#wCanvas").height =
+			800 + CL.work.projects.length * 500;
+		// Set Inf height
+		document.querySelector("#inf").style.top =
+			CL.work.projects.length * 500 + window.innerHeight * 0.65 + 590 + "px";
+		document.querySelector("#work__end-wrapper").style.top =
+			CL.work.projects.length * 500 + window.innerHeight * 0.65 + 740 + "px";
 	}
 	static getDerivedStateFromProps(props, state) {
 		let newPagDots = state.paginationDots,
@@ -377,12 +361,7 @@ export default class App extends Component {
 				{ opacity: 0, ease: Power4.easeInOut },
 				"+=0.2"
 			);
-			tlW.to(
-				[".sm-wrapper", ".lang-selector", ".night-selector"],
-				0.5,
-				{ opacity: 0 },
-				"-=0.5"
-			);
+			tlW.to([".sm-wrapper", ".br-menu"], 0.5, { opacity: 0 }, "-=0.5");
 			tlW.to("#rect-main", 0.5, { opacity: 1 }, "-=0.5");
 			tlW.call(() => {
 				document.querySelector("#anim-circle").beginElement();
@@ -403,11 +382,12 @@ export default class App extends Component {
 				"-=1"
 			);
 			tlW.to(".work__main-wrapper", 0.5, { opacity: 1 });
-			tlW.to("#ionic", 0.9, { opacity: 1, ease: Power4.easeOut }, "+=0");
-			tlW.to("#wCanvas", 0, { display: "block" });
+			tlW.to("#ionic", 0.5, { opacity: 1, ease: Power4.easeOut }, "+=0");
+			tlW.to(".dots-wrapper", 0.5, { opacity: 0 }, "-=0.8");
+			tlW.to(".dots-wrapper", 0, { display: "none" });
+			tlW.to("#wCanvas", 0, { display: "block" }, "-=0.5");
 			tlW.to("#wCanvas", 0.5, { opacity: 1 });
 			const cWidth = canvas.width;
-			const cHeight = canvas.height;
 
 			// Main line
 			ctx.beginPath();
@@ -697,7 +677,7 @@ export default class App extends Component {
 									/>
 									<div className='text-wrapper'>
 										<h3 style={ta}>{pr.title}</h3>
-										<h5 style={ta}>{pr.result}</h5>
+										{pr.result ? <h5 style={ta}>{pr.result}</h5> : ""}
 										<p style={ta}>{pr.text}</p>
 										<p
 											className='pr__link'

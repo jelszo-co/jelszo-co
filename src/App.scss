@@ -187,7 +187,7 @@ html {
 			white-space: nowrap;
 			z-index: 1;
 			bottom: 50%;
-			left: 20%;
+			left: 30%;
 			transform: translate(-50%, 50%);
 			text-align: center;
 			text-transform: uppercase;
@@ -262,7 +262,7 @@ html {
 	}
 	#wCanvas {
 		display: block;
-		opacity: 1;
+		opacity: 0;
 		z-index: -1;
 		position: absolute;
 		top: 65%;
@@ -286,7 +286,8 @@ html {
 			position: absolute;
 			top: 50%;
 			font-size: 2rem;
-			font-weight: 400;
+			font-weight: 200;
+			letter-spacing: -2px;
 		}
 		.content-wrapper {
 			height: 100%;
