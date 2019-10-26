@@ -18,6 +18,10 @@ export default class App extends Component {
 				current: false
 			};
 		}
+		// TODO: find out more
+		// document.addEventListener("resize", () => {
+		// 	this.forceUpdate();
+		// });
 		this.state = {
 			lang: localStorage.getItem("lang") || "hu",
 			CL: {},
@@ -350,115 +354,160 @@ export default class App extends Component {
 		const toRad = (deg) => {
 			return deg * (Math.PI / 180);
 		};
-		const goto_work = () => {
-			console.log("work");
-			const canvas = document.getElementById("wCanvas");
-			const ctx = canvas.getContext("2d");
-			const tlW = new TimelineMax();
-			tlW.to(
-				"#rect-landing",
-				0.5,
-				{ opacity: 0, ease: Power4.easeInOut },
-				"+=0.2"
-			);
-			tlW.to([".sm-wrapper", ".br-menu"], 0.5, { opacity: 0 }, "-=0.5");
-			tlW.to("#rect-main", 0.5, { opacity: 1 }, "-=0.5");
-			tlW.call(() => {
-				document.querySelector("#anim-circle").beginElement();
-				document.querySelector("#fillW-circle").beginElement();
-			});
-			tlW.to("#landing-center-text", 0.5, { opacity: 0 }, "-=0");
-			tlW.to("#rect-main", 1, {
-				top: "65%",
-				ease: Power4.easeInOut
-			});
-			tlW.to(
-				"#rect-main-obj",
-				1,
-				{
-					strokeWidth: 6,
+		const goto_contact = () => {};
+		const goto_work = (from) => {
+			if (from === "right") {
+				const canvas = document.getElementById("wCanvas");
+				const ctx = canvas.getContext("2d");
+				const tlWR = new TimelineMax();
+				tlWR.to(
+					"#rect-landing",
+					0.5,
+					{ opacity: 0, ease: Power4.easeInOut },
+					"+=0.2"
+				);
+				tlWR.to([".sm-wrapper", ".br-menu"], 0.5, { opacity: 0 }, "-=0.5");
+				tlWR.to("#rect-main", 0.5, { opacity: 1 }, "-=0.5");
+				tlWR.call(() => {
+					document.querySelector("#anim-W-circle").beginElement();
+					document.querySelector("#fill-W-circle").beginElement();
+				});
+				tlWR.to("#landing-center-text", 0.5, { opacity: 0 }, "-=0");
+				tlWR.to("#rect-main", 1, {
+					top: "65%",
 					ease: Power4.easeInOut
-				},
-				"-=1"
-			);
-			tlW.to(".work__main-wrapper", 0.5, { opacity: 1 });
-			tlW.to("#ionic", 0.5, { opacity: 1, ease: Power4.easeOut }, "+=0");
-			tlW.to(".dots-wrapper", 0.5, { opacity: 0 }, "-=0.8");
-			tlW.to(".dots-wrapper", 0, { display: "none" });
-			tlW.to("#wCanvas", 0, { display: "block" }, "-=0.5");
-			tlW.to("#wCanvas", 0.5, { opacity: 1 });
-			const cWidth = canvas.width;
-
-			// Main line
-			ctx.beginPath();
-			ctx.moveTo(cWidth / 2, 0);
-			ctx.lineTo(cWidth / 2, 200);
-			ctx.moveTo(cWidth / 2 + 100, 300);
-			ctx.arc(cWidth / 2 + 100, 200, 100, toRad(90), toRad(180), false);
-			for (let i = 0; i < CL.work.projects.length; i++) {
-				console.log(CL.work.projects[i]);
-				let multiplier = i * 500,
-					cf,
-					cfd1,
-					cfd3,
-					df;
-				if (i % 2 === 1) {
-					cf = -1;
-					df = -2;
-					cfd1 = -180;
-					cfd3 = true;
-				} else {
-					cf = 1;
-					df = 0;
-					cfd1 = 0;
-					cfd3 = false;
-				}
-				ctx.moveTo(cWidth / 2 + 100 * cf, 300 + multiplier);
-				ctx.lineTo((cWidth / 4) * (3 + df), 300 + multiplier);
-				ctx.arc(
-					(cWidth / 4) * (3 + df),
-					400 + multiplier,
-					100,
-					toRad(-90),
-					toRad(0 + cfd1),
-					cfd3
+				});
+				tlWR.to(
+					"#rect-main-obj",
+					1,
+					{
+						strokeWidth: 6,
+						ease: Power4.easeInOut
+					},
+					"-=1"
 				);
-				ctx.lineTo((cWidth / 4) * (3 + df) + 100 * cf, 700 + multiplier);
-				ctx.arc(
-					(cWidth / 4) * (3 + df),
-					700 + multiplier,
-					100,
-					toRad(0 + cfd1),
-					toRad(90),
-					cfd3
-				);
-				if (i === CL.work.projects.length - 1) {
-					ctx.lineTo((cWidth / 4) * 2 + 100 * cf, 800 + multiplier);
-				} else {
-					ctx.lineTo((cWidth / 4) * 2 + 100 * cf * -1, 800 + multiplier);
-				}
-			}
-			ctx.strokeStyle = "#000000";
-			ctx.lineWidth = 3;
-			ctx.setLineDash([30, 10]);
-			ctx.stroke();
+				tlWR.to(".work__main-wrapper", 0.5, { opacity: 1 });
+				tlWR.to("#ionic", 0.5, { opacity: 1, ease: Power4.easeOut }, "+=0");
+				tlWR.to(".dots-wrapper", 0.5, { opacity: 0 }, "-=0.8");
+				tlWR.to(".dots-wrapper", 0, { display: "none" });
+				tlWR.to("#wCanvas", 0, { display: "block" }, "-=0.5");
+				tlWR.to("#wCanvas", 0.5, { opacity: 1 });
+				const cWidth = canvas.width;
 
-			// Circles
-			let scf, scf2;
-			for (let i = 0; i < CL.work.projects.length; i++) {
-				let multiplier = i * 500;
-				if (i % 2 === 1) {
-					scf = -2;
-					scf2 = -100;
-				} else {
-					scf = 0;
-					scf2 = 100;
-				}
+				// Main line
 				ctx.beginPath();
-				ctx.setLineDash([]);
+				ctx.moveTo(cWidth / 2, 0);
+				ctx.lineTo(cWidth / 2, 200);
+				ctx.moveTo(cWidth / 2 + 100, 300);
+				ctx.arc(cWidth / 2 + 100, 200, 100, toRad(90), toRad(180), false);
+				for (let i = 0; i < CL.work.projects.length; i++) {
+					let multiplier = i * 500,
+						cf,
+						cfd1,
+						cfd3,
+						df;
+					if (i % 2 === 1) {
+						cf = -1;
+						df = -2;
+						cfd1 = -180;
+						cfd3 = true;
+					} else {
+						cf = 1;
+						df = 0;
+						cfd1 = 0;
+						cfd3 = false;
+					}
+					ctx.moveTo(cWidth / 2 + 100 * cf, 300 + multiplier);
+					ctx.lineTo((cWidth / 4) * (3 + df), 300 + multiplier);
+					ctx.arc(
+						(cWidth / 4) * (3 + df),
+						400 + multiplier,
+						100,
+						toRad(-90),
+						toRad(0 + cfd1),
+						cfd3
+					);
+					ctx.lineTo((cWidth / 4) * (3 + df) + 100 * cf, 700 + multiplier);
+					ctx.arc(
+						(cWidth / 4) * (3 + df),
+						700 + multiplier,
+						100,
+						toRad(0 + cfd1),
+						toRad(90),
+						cfd3
+					);
+					if (i === CL.work.projects.length - 1) {
+						ctx.lineTo((cWidth / 4) * 2 + 100 * cf, 800 + multiplier);
+					} else {
+						ctx.lineTo((cWidth / 4) * 2 + 100 * cf * -1, 800 + multiplier);
+					}
+				}
+				ctx.strokeStyle = "#000000";
+				ctx.lineWidth = 3;
+				ctx.setLineDash([30, 10]);
+				ctx.stroke();
+
+				// Circles
+				let scf, scf2;
+				for (let i = 0; i < CL.work.projects.length; i++) {
+					let multiplier = i * 500;
+					if (i % 2 === 1) {
+						scf = -2;
+						scf2 = -100;
+					} else {
+						scf = 0;
+						scf2 = 100;
+					}
+					ctx.beginPath();
+					ctx.setLineDash([]);
+					ctx.arc(
+						(cWidth / 4) * (3 + scf) + scf2,
+						550 + multiplier,
+						100,
+						toRad(0),
+						toRad(360),
+						false
+					);
+					ctx.strokeStyle = "#000000";
+					ctx.fillStyle = "#fff";
+					ctx.lineWidth = 6;
+					ctx.fill();
+					ctx.stroke();
+				}
+
+				// Tailing line and circle
+				ctx.beginPath();
+				if (CL.work.projects.length % 2 === 0) {
+					// even
+					ctx.arc(
+						(cWidth / 4) * 2 - 100,
+						400 + CL.work.projects.length * 500,
+						100,
+						toRad(-90),
+						toRad(0),
+						false
+					);
+				} else {
+					// odd
+					ctx.arc(
+						(cWidth / 4) * 2 + 100,
+						400 + CL.work.projects.length * 500,
+						100,
+						toRad(-90),
+						toRad(-180),
+						true
+					);
+				}
+				ctx.lineTo((cWidth / 4) * 2, 600 + CL.work.projects.length * 500);
+				ctx.strokeStyle = "#000000";
+				ctx.lineWidth = 3;
+				ctx.setLineDash([30, 10]);
+				ctx.stroke();
+
+				ctx.beginPath();
 				ctx.arc(
-					(cWidth / 4) * (3 + scf) + scf2,
-					550 + multiplier,
+					(cWidth / 4) * 2,
+					600 + CL.work.projects.length * 500,
 					100,
 					toRad(0),
 					toRad(360),
@@ -467,85 +516,117 @@ export default class App extends Component {
 				ctx.strokeStyle = "#000000";
 				ctx.fillStyle = "#fff";
 				ctx.lineWidth = 6;
+				ctx.setLineDash([]);
 				ctx.fill();
 				ctx.stroke();
-			}
 
-			// Tailing line and circle
-			ctx.beginPath();
-			if (CL.work.projects.length % 2 === 0) {
-				console.log("páros");
-				ctx.arc(
-					(cWidth / 4) * 2 - 100,
-					400 + CL.work.projects.length * 500,
-					100,
-					toRad(-90),
-					toRad(0),
-					false
+				document.addEventListener("scroll", () => {
+					if (
+						window.innerHeight + window.scrollY >=
+						document.querySelector("#wCanvas").height + window.innerHeight * 0.9
+					) {
+						this.setState({ scrollTopIndicator: true });
+					} else {
+						this.setState({ scrollTopIndicator: false });
+					}
+				});
+			}
+		};
+		const goto_landing = (from) => {
+			if (from === "right") {
+			} else if (from === "left") {
+				const tlLL = new TimelineMax();
+				tlLL.to("#wCanvas", 0.5, { opacity: 0 });
+				tlLL.to("#wCanvas", 0, { display: "none" });
+				tlLL.to(".dots-wrapper", 0, { display: "block" }, "-=0.5");
+				tlLL.to(".dots-wrapper", 0.5, { opacity: 1 }, "-=0");
+				tlLL.to(".work__main-wrapper", 0.5, { opacity: 0 }, "-=0.2");
+				tlLL.to("#ionic", 0.5, { opacity: 0, ease: Power4.easeOut }, "+=0");
+				tlLL.to(
+					"#rect-main-obj",
+					1,
+					{
+						strokeWidth: 3,
+						ease: Power4.easeInOut
+					},
+					"-=0.5"
 				);
-			} else {
-				ctx.arc(
-					(cWidth / 4) * 2 + 100,
-					400 + CL.work.projects.length * 500,
-					100,
-					toRad(-90),
-					toRad(-180),
-					true
+				tlLL.to(
+					"#rect-main",
+					1,
+					{
+						top: "48%",
+						ease: Power4.easeInOut
+					},
+					"-=1"
 				);
+				tlLL.call(() => {
+					document.querySelector("#anim-W-rect").beginElement();
+					document.querySelector("#fill-W-rect").beginElement();
+				});
+				tlLL.to("#landing-center-text", 0.5, { opacity: 1 }, "-=0.2");
+				tlLL.to("#rect-main", 0.5, { opacity: 0 }, "+=0.5");
+				tlLL.to(
+					"#rect-landing",
+					0.5,
+					{ opacity: 1, ease: Power4.easeInOut },
+					"-=0.5"
+				);
+				tlLL.to([".sm-wrapper", ".br-menu"], 0.5, { opacity: 1 }, "+=0.3");
 			}
-			ctx.lineTo((cWidth / 4) * 2, 600 + CL.work.projects.length * 500);
-			ctx.strokeStyle = "#000000";
-			ctx.lineWidth = 3;
-			ctx.setLineDash([30, 10]);
-			ctx.stroke();
-
-			ctx.beginPath();
-			ctx.arc(
-				(cWidth / 4) * 2,
-				600 + CL.work.projects.length * 500,
-				100,
-				toRad(0),
-				toRad(360),
-				false
-			);
-			ctx.strokeStyle = "#000000";
-			ctx.fillStyle = "#fff";
-			ctx.lineWidth = 6;
-			ctx.setLineDash([]);
-			ctx.fill();
-			ctx.stroke();
-
-			document.addEventListener("scroll", () => {
-				if (
-					window.innerHeight + window.scrollY >=
-					document.querySelector("#wCanvas").height + window.innerHeight * 0.9
-				) {
-					this.setState({ scrollTopIndicator: true });
-				} else {
-					this.setState({ scrollTopIndicator: false });
+		};
+		const goto_about = () => {};
+		const goto_team = () => {};
+		const navigate = (dir) => {
+			console.group("Navigator");
+			console.log("to:", dir);
+			console.log("from:", this.state.CL.pageNames[currentPage]);
+			if (dir === "left") {
+				if (currentPage !== 0) {
+					this.setState({ currentPage: this.state.currentPage - 1 });
+					switch (currentPage) {
+						case 1:
+							console.log("dest: contact");
+							goto_contact("right");
+							break;
+						case 2:
+							console.log("dest: work");
+							goto_work("right");
+							break;
+						case 3:
+							console.log("dest: landing");
+							goto_landing("right");
+							break;
+						case 4:
+							console.log("dest: about");
+							goto_about("right");
+							break;
+					}
 				}
-			});
-		};
-		const goto_contact = () => {
-			console.log("contact");
-		};
-		const nextPage = () => {
-			if (currentPage !== 4) {
-				this.setState({ currentPage: this.state.currentPage + 1 });
-			}
-		};
-		const prevPage = () => {
-			if (currentPage !== 0) {
-				this.setState({ currentPage: this.state.currentPage - 1 });
-				switch (currentPage) {
-					case 1:
-						goto_contact();
-						break;
-					case 2:
-						goto_work();
-						break;
+			} else if (dir === "right") {
+				if (currentPage !== 4) {
+					this.setState({ currentPage: this.state.currentPage + 1 });
+					switch (currentPage) {
+						case 0:
+							console.log("dest: work");
+							goto_work("left");
+							break;
+						case 1:
+							console.log("dest: landing");
+							goto_landing("left");
+							break;
+						case 2:
+							console.log("dest: about");
+							goto_about("left");
+							break;
+						case 3:
+							console.log("dest: team");
+							goto_team("left");
+							break;
+					}
 				}
 			}
+			console.groupEnd();
 		};
 		return (
 			<div className='App'>
@@ -714,12 +795,22 @@ export default class App extends Component {
 				</div>
 
 				{/* All pages */}
-				<div className='ctrl ctrl-left' onClick={prevPage}>
+				<div
+					className='ctrl ctrl-left'
+					onClick={() => {
+						navigate("left");
+					}}
+				>
 					<i className='fas fa-caret-left'></i>
 					<span></span>
 					<p>{CL.pageNames[currentPage - 1]}</p>
 				</div>
-				<div className='ctrl ctrl-right' onClick={nextPage}>
+				<div
+					className='ctrl ctrl-right'
+					onClick={() => {
+						navigate("right");
+					}}
+				>
 					<i className='fas fa-caret-right'></i>
 					<span></span>
 					<p>{CL.pageNames[currentPage + 1]}</p>
