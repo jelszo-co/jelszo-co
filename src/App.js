@@ -8,6 +8,12 @@ import { ReactComponent as NightSwitch } from "./assets/Nightswitch.svg";
 import { ReactComponent as LandingCube } from "./assets/Landing_cube.svg";
 import { ReactComponent as Ionic } from "./assets/Bulb.svg";
 import { ReactComponent as Inf } from "./assets/Infinite.svg";
+
+import { ReactComponent as Mail } from "./assets/social/email.svg";
+import { ReactComponent as Github } from "./assets/social/github.svg";
+import { ReactComponent as Ig } from "./assets/social/ig.svg";
+import { ReactComponent as Ms } from "./assets/social/ms.svg";
+
 export default class App extends Component {
 	constructor(props) {
 		super(props);
@@ -24,6 +30,7 @@ export default class App extends Component {
 		// });
 		this.state = {
 			lang: localStorage.getItem("lang") || "hu",
+			tl: new TimelineMax(),
 			CL: {},
 			EN: {
 				name: "en",
@@ -77,6 +84,21 @@ export default class App extends Component {
 								"A webpage for the Nyíregyházi Kölcsey Ferenc Secondary School's radio, where the students can request their favourite songs to be played in the radio."
 						}
 					]
+				},
+				contact: {
+					contactHeader: "Contact us",
+					profiles: [
+						"support@jelszo.co",
+						"@jelszoco",
+						"jelszo-co",
+						"Jelszo co"
+					],
+					profileFlavors: [
+						"Write email",
+						"Visit profile",
+						"Visit Github",
+						"Write message"
+					]
 				}
 			},
 			HU: {
@@ -129,6 +151,16 @@ export default class App extends Component {
 								"A Nyíregyházi Kölcsey Ferenc Gimnázium stúdiósainak készített weboldal, ahová a diákok a saját kedvenc zenéiket küldhetik be."
 						}
 					]
+				},
+				contact: {
+					contactHeader: "Kapcsolat",
+					profiles: [
+						"support@jelszo.co",
+						"@jelszoco",
+						"jelszo-co",
+						"Jelszo co"
+					],
+					profileFlavors: ["Email írása", "Profil", "GitHub", "Üzenet"]
 				}
 			},
 			currentPage: 2,
@@ -140,15 +172,13 @@ export default class App extends Component {
 		};
 	}
 	componentDidMount() {
-		const { CL } = this.state;
-		const tl = new TimelineMax();
+		const { CL, tl } = this.state;
 		tl.to("#landing-center-text", 1, { text: CL.introText[0] }, "+=1");
 		tl.to("#landing-center-text", 0.5, { text: "" }, "+=1");
 		tl.to("#landing-center-text", 1, { text: CL.introText[1] }, "+=0.5");
 		tl.to("#landing-center-text", 0.5, { text: "" }, "+=1");
 		tl.to("#landing-center-text", 1, { text: "Jelszo Co." }, "+=0.5");
 		tl.to("#playhead", 0.5, { opacity: 0, animation: "none" }, "+=0.5");
-		tl.addLabel("svg");
 		tl.to("#rect-landing", 0.2, { opacity: 1 });
 		tl.to(
 			".line-short",
@@ -174,13 +204,15 @@ export default class App extends Component {
 			[".sm-wrapper", ".br-menu", ".ctrl", ".dots-wrapper"],
 			0.5,
 			{ opacity: 1 },
-			"+=0.8"
+			"+=0.2"
 		);
 		tl.addLabel("end");
+		// TODO: remove animation if user have seen it
 		// REMINDER: Move "end" label before array opacity toggle
 
 		document.body.onkeyup = function(e) {
 			if (e.keyCode === 32) {
+				// tl.currentLabel("elements");
 				tl.currentLabel("end");
 			}
 		};
@@ -354,30 +386,77 @@ export default class App extends Component {
 		const toRad = (deg) => {
 			return deg * (Math.PI / 180);
 		};
-		const goto_contact = () => {};
+		const goto_contact = () => {
+			const { CL, tl } = this.state;
+			tl.currentLabel("end_work");
+			tl.to("#wCanvas", 0.5, { opacity: 0 });
+			tl.to("#wCanvas", 0, { display: "none" });
+			tl.to(".dots-wrapper", 0, { display: "block" }, "-=1");
+			tl.to(".dots-wrapper", 0.5, { opacity: 1 }, "-=0");
+			tl.to(".work__main-wrapper", 0.3, { opacity: 0 }, "-=0.2");
+			tl.to("#ionic", 0.5, { opacity: 0, ease: Power4.easeOut }, "+=0");
+			tl.to(
+				"#rect-main-obj",
+				1,
+				{
+					strokeWidth: 3,
+					ease: Power4.easeInOut
+				},
+				"-=0.5"
+			);
+			tl.call(
+				() => {
+					document.querySelector("#anim-W-rect").beginElement();
+					document.querySelector("#fill-W-rect").beginElement();
+				},
+				null,
+				null,
+				"-=0.5"
+			);
+			tl.to("#contact-header", 1, { text: CL.contact.contactHeader }, "+=0");
+			tl.to("#rect-main", 1, { top: "22%", ease: Power4.easeInOut }, "+=0.2");
+			// DECIDE: together / 2ms delay
+			tl.to(
+				"#contact-header",
+				1,
+				{ top: "22%", ease: Power4.easeInOut },
+				"-=0.98"
+			);
+			tl.to(".ct-list-item", 0, { display: "block" }, "-=1");
+			tl.staggerFromTo(
+				".ct-list-item",
+				0.8,
+				{ opacity: 0 },
+				{ opacity: 1 },
+				-0.1,
+				"-=0.6"
+			);
+			tl.addLabel("end_contact");
+		};
 		const goto_work = (from) => {
 			if (from === "right") {
 				const canvas = document.getElementById("wCanvas");
 				const ctx = canvas.getContext("2d");
-				const tlWR = new TimelineMax();
-				tlWR.to(
+				const { CL, tl } = this.state;
+				tl.currentLabel("end");
+				tl.to(
 					"#rect-landing",
 					0.5,
 					{ opacity: 0, ease: Power4.easeInOut },
 					"+=0.2"
 				);
-				tlWR.to([".sm-wrapper", ".br-menu"], 0.5, { opacity: 0 }, "-=0.5");
-				tlWR.to("#rect-main", 0.5, { opacity: 1 }, "-=0.5");
-				tlWR.call(() => {
+				tl.to([".sm-wrapper", ".br-menu"], 0.5, { opacity: 0 }, "-=0.5");
+				tl.to("#rect-main", 0.5, { opacity: 1 }, "-=0.5");
+				tl.call(() => {
 					document.querySelector("#anim-W-circle").beginElement();
 					document.querySelector("#fill-W-circle").beginElement();
 				});
-				tlWR.to("#landing-center-text", 0.5, { opacity: 0 }, "-=0");
-				tlWR.to("#rect-main", 1, {
+				tl.to("#landing-center-text", 0.5, { opacity: 0 }, "-=0");
+				tl.to("#rect-main", 1, {
 					top: "65%",
 					ease: Power4.easeInOut
 				});
-				tlWR.to(
+				tl.to(
 					"#rect-main-obj",
 					1,
 					{
@@ -386,12 +465,13 @@ export default class App extends Component {
 					},
 					"-=1"
 				);
-				tlWR.to(".work__main-wrapper", 0.5, { opacity: 1 });
-				tlWR.to("#ionic", 0.5, { opacity: 1, ease: Power4.easeOut }, "+=0");
-				tlWR.to(".dots-wrapper", 0.5, { opacity: 0 }, "-=0.8");
-				tlWR.to(".dots-wrapper", 0, { display: "none" });
-				tlWR.to("#wCanvas", 0, { display: "block" }, "-=0.5");
-				tlWR.to("#wCanvas", 0.5, { opacity: 1 });
+				tl.to(".work__main-wrapper", 0.5, { opacity: 1 });
+				tl.to("#ionic", 0.5, { opacity: 1, ease: Power4.easeOut }, "+=0");
+				tl.to(".dots-wrapper", 0.5, { opacity: 0 }, "-=0.8");
+				tl.to(".dots-wrapper", 0, { display: "none" });
+				tl.to("#wCanvas", 0, { display: "block" }, "-=0.5");
+				tl.to("#wCanvas", 0.5, { opacity: 1 });
+				tl.addLabel("end_work");
 				const cWidth = canvas.width;
 
 				// Main line
@@ -535,14 +615,15 @@ export default class App extends Component {
 		const goto_landing = (from) => {
 			if (from === "right") {
 			} else if (from === "left") {
-				const tlLL = new TimelineMax();
-				tlLL.to("#wCanvas", 0.5, { opacity: 0 });
-				tlLL.to("#wCanvas", 0, { display: "none" });
-				tlLL.to(".dots-wrapper", 0, { display: "block" }, "-=1");
-				tlLL.to(".dots-wrapper", 0.5, { opacity: 1 }, "-=0");
-				tlLL.to(".work__main-wrapper", 0.3, { opacity: 0 }, "-=0.2");
-				tlLL.to("#ionic", 0.5, { opacity: 0, ease: Power4.easeOut }, "+=0");
-				tlLL.to(
+				const { tl } = this.state;
+				tl.currentLabel("end_work");
+				tl.to("#wCanvas", 0.5, { opacity: 0 });
+				tl.to("#wCanvas", 0, { display: "none" });
+				tl.to(".dots-wrapper", 0, { display: "block" }, "-=1");
+				tl.to(".dots-wrapper", 0.5, { opacity: 1 }, "-=0");
+				tl.to(".work__main-wrapper", 0.3, { opacity: 0 }, "-=0.2");
+				tl.to("#ionic", 0.5, { opacity: 0, ease: Power4.easeOut }, "+=0");
+				tl.to(
 					"#rect-main-obj",
 					1,
 					{
@@ -551,7 +632,7 @@ export default class App extends Component {
 					},
 					"-=0.5"
 				);
-				tlLL.to(
+				tl.to(
 					"#rect-main",
 					1,
 					{
@@ -560,7 +641,7 @@ export default class App extends Component {
 					},
 					"-=1"
 				);
-				tlLL.call(
+				tl.call(
 					() => {
 						document.querySelector("#anim-W-rect").beginElement();
 						document.querySelector("#fill-W-rect").beginElement();
@@ -569,18 +650,19 @@ export default class App extends Component {
 					null,
 					"-=0.5"
 				);
-				tlLL.to("#landing-center-text", 0.5, { opacity: 1 }, "+=0");
-				tlLL.to("#rect-main", 0.5, { opacity: 0 }, "-=0.5");
-				tlLL.to(
+				tl.to("#landing-center-text", 0.5, { opacity: 1 }, "+=0");
+				tl.to("#rect-main", 0.5, { opacity: 0 }, "-=0.5");
+				tl.to(
 					"#rect-landing",
 					0.5,
 					{ opacity: 1, ease: Power4.easeInOut },
 					"-=0.5"
 				);
-				tlLL.to([".sm-wrapper", ".br-menu"], 0.5, { opacity: 1 }, "+=0.2");
+				tl.to([".sm-wrapper", ".br-menu"], 0.5, { opacity: 1 }, "+=0.2");
+				tl.addLabel("end_landing");
 			}
 		};
-		const goto_about = () => {};
+		const goto_about = (from) => {};
 		const goto_team = () => {};
 		const navigate = (dir) => {
 			console.group("Navigator");
@@ -592,7 +674,7 @@ export default class App extends Component {
 					switch (currentPage) {
 						case 1:
 							console.log("dest: contact");
-							goto_contact("right");
+							goto_contact();
 							break;
 						case 2:
 							console.log("dest: work");
@@ -632,6 +714,43 @@ export default class App extends Component {
 				}
 			}
 			console.groupEnd();
+		};
+
+		const tlCt = new TimelineMax();
+		const onCtHover = (n) => {
+			console.log("Hovered", n);
+
+			tlCt.to(`.ct-playhead-${n}`, 0.6, {
+				width: "100%",
+				ease: Power4.easeInOut
+			});
+			tlCt.to(`.ct-text-${n}`, 0, { opacity: 0 });
+			tlCt.to(
+				`.ct-playhead-${n}`,
+				0.6,
+				{
+					left: "111%",
+					width: 0,
+					ease: Power4.easeInOut
+				},
+				"-=0.1"
+			);
+			tlCt.to(
+				`.ct-hover-${n}`,
+				0.6,
+				{ width: "100%", ease: Power4.easeInOut },
+				"-=0.6"
+			);
+			tlCt.to(`.ct-playhead-${n}`, 0, {
+				left: "20px",
+				ease: Power4.easeInOut
+			});
+		};
+		const onCtLeave = () => {
+			console.log("Left areas");
+			tlCt.kill();
+			// DECIDE: kill VS clear
+			// tlCt.to(".ct-playhead", 0.4, { width: 0, ease: Power4.easeInOut });
 		};
 		return (
 			<div className='App'>
@@ -797,6 +916,54 @@ export default class App extends Component {
 					>
 						<i className='fas fa-chevron-up'></i> {CL.work.toTop}
 					</div>
+				</div>
+
+				{/* Contact */}
+				<div id='contact'>
+					<h2 id='contact-header'> </h2>
+					<ul>
+						{CL.contact.profiles.map((li) => {
+							let icon = null;
+							let i = CL.contact.profiles.indexOf(li);
+							switch (i) {
+								case 0:
+									icon = <Mail className='ct-icon ct-mail' />;
+									break;
+								case 1:
+									icon = <Ig className='ct-icon ct-ig' />;
+									break;
+								case 2:
+									icon = <Github className='ct-icon ct-github' />;
+									break;
+								case 3:
+									icon = <Ms className='ct-icon ct-ms' />;
+									break;
+								default:
+									icon = null;
+							}
+							return (
+								<li key={i} className='ct-list-item'>
+									<span className='ct-circle'></span>
+									{icon}
+									<p
+										onMouseEnter={() => {
+											onCtHover(i);
+										}}
+										onMouseLeave={() => {
+											onCtLeave();
+										}}
+										className={`ct-text-${i}`}
+									>
+										{CL.contact.profiles[i]}
+									</p>
+									<span className={`ct-playhead ct-playhead-${i}`}></span>
+									<p className={`ct-hover ct-hover-${i}`}>
+										{CL.contact.profileFlavors[i]}
+									</p>
+								</li>
+							);
+						})}
+					</ul>
 				</div>
 
 				{/* All pages */}
